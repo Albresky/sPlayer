@@ -4,17 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World"
-            android:textSize="20dp" />
+        <ImageButton
+            android:src="@drawable/baseline_music_note_64"
+            android:id="@+id/btn_music"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:src="@drawable/baseline_ondemand_video_64"
+            android:id="@+id/btn_video"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
 
