@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/lay_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_bg"
+        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.MainActivity">
 
@@ -14,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white_2"
+            android:background="@color/colorPrimary"
             app:navigationIcon="@drawable/baseline_back_arrow">
 
             <TextView
@@ -23,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="本地音乐"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -35,7 +36,7 @@
             <RelativeLayout
                 android:id="@+id/lay_body"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/lay_bottom">
 
                 <LinearLayout
@@ -60,10 +61,11 @@
                         android:insetBottom="0dp"
                         android:text="扫描本地音乐"
                         android:textSize="14dp"
+                        android:textColor="@color/black"
                         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                         app:backgroundTint="@color/transparent"
                         app:cornerRadius="20dp"
-                        app:strokeColor="@color/white"
+                        app:strokeColor="@color/gray"
                         app:strokeWidth="@dimen/dp_1" />
                 </LinearLayout>
 
@@ -86,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/bottom_bg_color"
+                android:background="@color/colorPrimary"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_8"
                 android:paddingTop="@dimen/dp_8"
@@ -102,9 +104,9 @@
                         android:layout_width="@dimen/dp_48"
                         android:layout_height="@dimen/dp_48"
                         android:padding="1dp"
-                        android:src="@drawable/baseline_music_note_64"
+                        android:src="@mipmap/record"
                         app:shapeAppearanceOverlay="@style/circleImageStyle"
-                        app:strokeColor="@color/white"
+                        app:strokeColor="@color/gold_color"
                         app:strokeWidth="@dimen/dp_2" />
 
                 </RelativeLayout>
@@ -121,8 +123,8 @@
                     android:paddingLeft="@dimen/dp_12"
                     android:paddingRight="@dimen/dp_12"
                     android:singleLine="true"
-                    android:text="Music"
-                    android:textColor="@color/white"
+                    android:text="Music - sPlayer"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/sp_16" />
 
                 <com.google.android.material.button.MaterialButton
@@ -134,12 +136,14 @@
                     android:insetRight="@dimen/dp_0"
                     android:insetBottom="@dimen/dp_0"
                     android:onClick="onClick"
+                    app:iconTint="@color/black"
                     android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                    app:backgroundTint="@color/transparent"
+                    app:backgroundTint="@color/colorPrimary"
                     app:cornerRadius="@dimen/dp_18"
                     app:icon="@drawable/baseline_play"
+                    app:iconPadding="0dp"
                     app:iconGravity="textStart"
-                    app:iconPadding="@dimen/dp_0"
+                    android:stateListAnimator="@null"
                     app:iconSize="@dimen/dp_36" />
             </LinearLayout>
 

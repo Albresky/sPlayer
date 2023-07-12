@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#26252B</color>
-    <color name="colorPrimaryDark">#26252B</color>
+    <color name="colorPrimary">#EDEDED</color>
+    <color name="colorPrimaryLight">#EDEDED</color>
     <color name="colorAccent">#D81B60</color>
 
     <!--App主要颜色-->
@@ -9,7 +9,7 @@
     <!--App背景颜色-->
     <color name="app_bg">#333439</color>
 
-    
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

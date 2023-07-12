@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_1"
-    android:background="@color/app_color"
+    android:background="@color/white"
     android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -20,7 +20,7 @@
         android:layout_margin="2dp"
         android:text="1"
         android:gravity="center"
-        android:textColor="@color/gray"
+        android:textColor="@color/black"
         android:textSize="@dimen/sp_12" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="歌曲名"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="歌手"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -87,8 +87,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_marginRight="3dp"
                 android:text="时间"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
     </LinearLayout>

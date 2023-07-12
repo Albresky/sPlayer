@@ -2,6 +2,8 @@ package com.albresky.splayer.UI;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +54,27 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     }
 
     private void initView() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+//        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+//        ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
+//            int botm = 0, top = 0;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+//                botm = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+//
+//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                top = insets.getSystemWindowInsetTop();
+//                botm = insets.getSystemWindowInsetBottom();
+//            }
+//            Log.d(TAG, "onApplyWindowInsets: top = " + top + ", botm = " + botm);
+//
+//            binding.layBody.setPadding(0, top, 0, top * 2);
+//            binding.layBottom.setPadding(0, botm / 10, 0, botm);
+//            return insets;
+//        });
+
         binding.btnScanMusic.setOnClickListener(v -> {
             Log.d(TAG, "initView: btnScanMusic clicked");
             getMusicList();
@@ -62,7 +85,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
                     playerPause();
                 } else {
                     mPlayer.start();
-                    binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_play));
+                    binding.playerSongName.setSelected(true);
+                    binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
                     rotateAnimator.resume();
                 }
             } else {
@@ -82,6 +106,11 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
         rvMusic = binding.rvMusic;
         layScanMusic = binding.layScanMusic;
+
+        BitmapFactory.Options mOptions = new BitmapFactory.Options();
+        mOptions.inScaled = false;
+        Bitmap defaultCover = BitmapFactory.decodeResource(this.getResources(), R.mipmap.record, mOptions);
+        binding.playerSongCover.setImageBitmap(MusicScanner.createBitmapWithScale(defaultCover, false));
 
         // initialize cover animation
         rotateAnimator = ObjectAnimator.ofFloat(binding.playerSongCover, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点

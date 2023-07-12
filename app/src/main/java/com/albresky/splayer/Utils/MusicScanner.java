@@ -117,6 +117,5 @@ public class MusicScanner {
         matrix.postScale(sx, sy);
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, filter);
     }
-
 }
 
