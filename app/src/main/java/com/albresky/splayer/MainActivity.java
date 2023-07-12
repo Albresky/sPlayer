@@ -1,4 +1,4 @@
-package com.albresky.splayer.UI;
+package com.albresky.splayer;
 
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.albresky.splayer.UI.MusicActivity;
 import com.albresky.splayer.databinding.ActivityMainBinding;
 
 
