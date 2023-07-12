@@ -1,13 +1,17 @@
 package com.albresky.splayer.UI;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,8 +34,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     private MusicListAdapter mAdapter;
 
-    private List<Song> mList = new ArrayList<Song>();
+    private List<Song> mList = new ArrayList<>();
 
+    private ObjectAnimator rotateAnimator;
 
     private ActivityMusiclistBinding binding;
 
@@ -57,7 +62,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
                     playerPause();
                 } else {
                     mPlayer.start();
-                    binding.btnPlay.setIcon(getDrawable(R.drawable.baseline_pause));
+                    binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_play));
+                    rotateAnimator.resume();
                 }
             } else {
                 playerStart(0);
@@ -76,13 +82,20 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
         rvMusic = binding.rvMusic;
         layScanMusic = binding.layScanMusic;
+
+        // initialize cover animation
+        rotateAnimator = ObjectAnimator.ofFloat(binding.playerSongCover, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点
+        rotateAnimator.setDuration(12000);
+        rotateAnimator.setInterpolator(new LinearInterpolator());
+        rotateAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        rotateAnimator.setRepeatMode(ValueAnimator.RESTART);
     }
 
     private void getMusicList() {
         mList.clear();
         mList = MusicScanner.getMusicData(this);
 
-        if (mList != null && mList.size() > 0) {
+        if (mList.size() > 0) {
             if (mAdapter == null) {
                 mAdapter = new MusicListAdapter(mList, this);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -112,10 +125,12 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             mPlayer.prepare();
             mPlayer.start();
 
-            binding.playerSongName.setText(mList.get(position).getSong() + " - " + mList.get(position).getSinger());
+            binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
             binding.playerSongName.setSelected(true);
             binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, mList.get(position).getPath(), 1));
-            binding.btnPlay.setIcon(getDrawable(R.drawable.baseline_pause));
+            binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
+
+            rotateAnimator.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,8 +139,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     private void playerPause() {
         if (mPlayer != null) {
             mPlayer.pause();
-            binding.btnPlay.setIcon(getDrawable(R.drawable.baseline_play));
+            binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_play));
             binding.playerSongName.setSelected(false);
+            rotateAnimator.pause();
         }
     }
 
