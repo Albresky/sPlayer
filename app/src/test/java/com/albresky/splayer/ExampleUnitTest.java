@@ -1,4 +1,4 @@
-package com.albresky.splayer;
+package cn.albresky.splayer;
 
 import org.junit.Test;
 
