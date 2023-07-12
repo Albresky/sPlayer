@@ -22,6 +22,39 @@ public class MusicScanner {
 
     public static final String TAG = "MusicScanner";
 
+    public static String typeConvert(String mimeType) {
+        String type;
+        try {
+            if (mimeType.contains("/")) {
+                String[] str = mimeType.split("/");
+                type = str[1];
+            } else {
+                throw new Exception("mimeType is not valid");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "typeConvert: ", e);
+            type = "Unknown";
+        }
+        switch (type) {
+            case "mpeg":
+                return "MP3";
+            case "wav":
+                return "WAV";
+            case "flac":
+                return "FLAC";
+            case "ape":
+                return "APE";
+            case "aac":
+                return "AAC";
+            case "ogg":
+                return "OGG";
+            case "wma":
+                return "WMA";
+            default:
+                return "Unknown";
+        }
+    }
+
     public static List<Song> getMusicData(Context context) {
         List<Song> list = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null,
@@ -36,6 +69,7 @@ public class MusicScanner {
                 song.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 song.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
                 song.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
+                song.type = typeConvert(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)));
                 Log.d(TAG, song.song);
 
                 if (song.size > 1000 * 800) {
@@ -60,11 +94,12 @@ public class MusicScanner {
         Bitmap albumPicture;
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;
+
         if (data != null) {
             albumPicture = createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), false);
         } else {
             if (type == 1) {
-                albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.default_music, mOptions);
+                albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.record, mOptions);
             } else {
                 albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.notify_music, mOptions);
             }

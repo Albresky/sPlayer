@@ -19,6 +19,8 @@ public class Song extends LitePalSupport {
 
     public long size;
 
+    public String type;
+
     public boolean isCheck;
 
     public String getSinger() {
@@ -75,6 +77,14 @@ public class Song extends LitePalSupport {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public boolean isCheck() {

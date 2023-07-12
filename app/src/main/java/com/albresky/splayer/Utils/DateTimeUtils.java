@@ -159,7 +159,8 @@ public class DateTimeUtils {
             return time / 1000 / 60 + ":0" + time / 1000 % 60;
 
         } else {
-            return time / 1000 / 60 + ":" + time / 1000 % 60;
+            int mm = time / 1000 / 60;
+            return (mm < 10 ? "0" + mm : mm) + ":" + time / 1000 % 60;
         }
     }
 }

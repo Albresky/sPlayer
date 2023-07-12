@@ -26,6 +26,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     private Context mContext;
 
+    private OnItemClickListener mOnItemClickListener;
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView songCover;
@@ -33,6 +35,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         TextView singer;
         TextView duration;
         TextView position;
+        TextView songType;
         View songView;
 
         public ViewHolder(View itemView) {
@@ -43,12 +46,14 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             singer = itemView.findViewById(R.id.tv_singer);
             duration = itemView.findViewById(R.id.tv_duration_time);
             position = itemView.findViewById(R.id.tv_position);
+            songType = itemView.findViewById(R.id.tv_song_type);
         }
     }
 
     public MusicListAdapter(List<Song> songs, @Nullable Context context) {
         mSongs = songs;
         mContext = context;
+        mOnItemClickListener = (OnItemClickListener) context;
     }
 
 
@@ -57,12 +62,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_music_list, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-
-        holder.songView.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "You clicked view ", Toast.LENGTH_SHORT).show();
-        });
         return holder;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -73,7 +75,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.singer.setText(song.getSinger() + " - " + song.getAlbum());
         holder.duration.setText(time);
         holder.position.setText(position + 1 + "");
+        holder.songType.setText(song.getType());
         holder.songCover.setImageBitmap(MusicScanner.getAlbumPicture(mContext, song.getPath(), 1));
+
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(v.getContext(), "You clicked view ", Toast.LENGTH_SHORT).show();
+            mOnItemClickListener.onItemClick(v, position);
+        });
     }
 
     @Override
@@ -81,4 +89,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         return mSongs.size();
     }
 
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void updateData(List<Song> songs) {
+        mSongs = songs;
+        notifyDataSetChanged();
+    }
 }
