@@ -7,22 +7,23 @@
     tools:context=".UI.MainActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/cardview_compat_inset_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageButton
             android:src="@drawable/baseline_music_note_64"
             android:id="@+id/btn_music"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_weight="1" />
 
         <ImageButton
             android:src="@drawable/baseline_ondemand_video_64"
             android:id="@+id/btn_video"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_weight="1" />
     </LinearLayout>
 

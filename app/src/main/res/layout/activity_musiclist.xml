@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bg"
+        android:orientation="vertical"
+        tools:context=".ui.MainActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white_2"
+            app:navigationIcon="@drawable/baseline_back_arrow">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="本地音乐"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/lay_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/lay_bottom">
+
+                <LinearLayout
+                    android:id="@+id/lay_scan_music"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:src="@drawable/baseline_empty" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_scan_music"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="140dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="扫描本地音乐"
+                        android:textSize="14dp"
+                        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                        app:backgroundTint="@color/transparent"
+                        app:cornerRadius="20dp"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="@dimen/dp_1" />
+                </LinearLayout>
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:id="@+id/lay_refresh">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_music"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/bottom_bg_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_8"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingRight="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_8">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <!--logo-->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_logo"
+                        android:layout_width="@dimen/dp_48"
+                        android:layout_height="@dimen/dp_48"
+                        android:padding="1dp"
+                        android:src="@drawable/baseline_music_note_64"
+                        app:shapeAppearanceOverlay="@style/circleImageStyle"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="@dimen/dp_2" />
+
+                </RelativeLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_song_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:singleLine="true"
+                    android:text="Music"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_play"
+                    android:layout_width="@dimen/dp_36"
+                    android:layout_height="@dimen/dp_36"
+                    android:insetLeft="@dimen/dp_0"
+                    android:insetTop="@dimen/dp_0"
+                    android:insetRight="@dimen/dp_0"
+                    android:insetBottom="@dimen/dp_0"
+                    android:onClick="onClick"
+                    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                    app:backgroundTint="@color/transparent"
+                    app:cornerRadius="@dimen/dp_18"
+                    app:icon="@drawable/baseline_play"
+                    app:iconGravity="textStart"
+                    app:iconPadding="@dimen/dp_0"
+                    app:iconSize="@dimen/dp_36" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
