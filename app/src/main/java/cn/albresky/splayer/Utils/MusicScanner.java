@@ -4,16 +4,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.media.MediaMetadataRetriever;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import cn.albresky.splayer.Bean.Song;
-import cn.albresky.splayer.R;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.albresky.splayer.Bean.Song;
+import cn.albresky.splayer.R;
 
 public class MusicScanner {
     /**
@@ -22,38 +22,6 @@ public class MusicScanner {
 
     public static final String TAG = "MusicScanner";
 
-    public static String typeConvert(String mimeType) {
-        String type;
-        try {
-            if (mimeType.contains("/")) {
-                String[] str = mimeType.split("/");
-                type = str[1];
-            } else {
-                throw new Exception("mimeType is not valid");
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "typeConvert: ", e);
-            type = "Unknown";
-        }
-        switch (type) {
-            case "mpeg":
-                return "MP3";
-            case "wav":
-                return "WAV";
-            case "flac":
-                return "FLAC";
-            case "ape":
-                return "APE";
-            case "aac":
-                return "AAC";
-            case "ogg":
-                return "OGG";
-            case "wma":
-                return "WMA";
-            default:
-                return "Unknown";
-        }
-    }
 
     public static List<Song> getMusicData(Context context) {
         List<Song> list = new ArrayList<>();
@@ -69,8 +37,16 @@ public class MusicScanner {
                 song.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 song.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
                 song.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
-                song.type = typeConvert(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)));
+                song.type = Converter.typeConvert(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)));
                 Log.d(TAG, song.song);
+
+                // check song.path file exists or not
+                File mFile = new File(song.path);
+                if (!mFile.exists()) {
+                    Log.d(TAG, "getMusicData: " + song.path + " not exists");
+                    continue;
+                }
+
 
                 if (song.size > 1000 * 800) {
                     if (song.song.contains("-")) {
@@ -96,26 +72,18 @@ public class MusicScanner {
         mOptions.inScaled = false;
 
         if (data != null) {
-            albumPicture = createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), false);
+            albumPicture = Converter.createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), false);
         } else {
             if (type == 1) {
                 albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.record, mOptions);
             } else {
                 albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.notify_music, mOptions);
             }
-            albumPicture = createBitmapWithScale(albumPicture, false);
+            albumPicture = Converter.createBitmapWithScale(albumPicture, false);
         }
         return albumPicture;
     }
 
-    public static Bitmap createBitmapWithScale(Bitmap bitmap, boolean filter) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        Matrix matrix = new Matrix();
-        float sx = ((float) 120 / width);
-        float sy = ((float) 120 / height);
-        matrix.postScale(sx, sy);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, filter);
-    }
+
 }
 

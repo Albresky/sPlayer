@@ -17,14 +17,15 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.albresky.splayer.Adapter.MusicListAdapter;
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.R;
+import cn.albresky.splayer.Utils.Converter;
 import cn.albresky.splayer.Utils.MusicScanner;
 import cn.albresky.splayer.databinding.ActivityMusiclistBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MusicActivity extends AppCompatActivity implements MusicListAdapter.OnItemClickListener {
 
@@ -110,7 +111,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;
         Bitmap defaultCover = BitmapFactory.decodeResource(this.getResources(), R.mipmap.record, mOptions);
-        binding.playerSongCover.setImageBitmap(MusicScanner.createBitmapWithScale(defaultCover, false));
+        binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(defaultCover, false));
 
         // initialize cover animation
         rotateAnimator = ObjectAnimator.ofFloat(binding.playerSongCover, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点

@@ -16,7 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.List;
+
+import cn.albresky.splayer.Bean.Video;
 import cn.albresky.splayer.UI.MusicActivity;
+import cn.albresky.splayer.Utils.VideoScanner;
 import cn.albresky.splayer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         Log.d(TAG, "onCreate() called");
+
+
+        checkPermissons();
+
+        /*
+         * test zone
+         * */
+        List<Video> mVideos = VideoScanner.getVideoData(this);
+
+        // test zone end
+    }
+
+    private void checkPermissons() {
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.equals(RESULT_OK)) {

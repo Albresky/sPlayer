@@ -7,12 +7,7 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.Locale;
 
-/**
- * Created by Albresky on 2023/07/11.
- */
-
-public class DateTimeUtils {
-
+public class DatetimeUtils {
     /**
      * 获取当前完整的日期和时间
      *

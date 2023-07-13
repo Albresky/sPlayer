@@ -12,12 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.R;
-import cn.albresky.splayer.Utils.DateTimeUtils;
+import cn.albresky.splayer.Utils.DatetimeUtils;
 import cn.albresky.splayer.Utils.MusicScanner;
-
-import java.util.List;
 
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
@@ -69,7 +69,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Song song = mSongs.get(position);
-        String time = DateTimeUtils.formatTime(song.getDuration());
+        String time = DatetimeUtils.formatTime(song.getDuration());
 
         holder.songName.setText(song.getSong());
         holder.singer.setText(song.getSinger() + " - " + song.getAlbum());

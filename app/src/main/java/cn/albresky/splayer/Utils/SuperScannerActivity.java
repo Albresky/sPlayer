@@ -17,9 +17,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import cn.albresky.splayer.R;
-import cn.albresky.splayer.databinding.ActivityMusicBinding;
-
 import com.bumptech.glide.Glide;
 import com.dhl.filescanner.AbstractScanCallback;
 import com.dhl.filescanner.FileScanner;
@@ -30,13 +27,15 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class ScannerActivity extends AppCompatActivity {
+import cn.albresky.splayer.R;
+import cn.albresky.splayer.databinding.ActivityMusicBinding;
+
+public class SuperScannerActivity extends AppCompatActivity {
 
     private ActivityMusicBinding binding;
     private TextView mTVINfo;
     private EditText mETThread, mETDepth;
     private CheckBox mCBDetail, mCBHideDir, mCBNoMedia;
-
     private MyAdapter mAdapter = new MyAdapter();
     private FileScanner mFileScanner;
     private long mStartTime;
