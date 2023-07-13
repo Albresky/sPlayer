@@ -17,6 +17,11 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="roundCornerImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
     <declare-styleable name="RoundProgressView">
         <attr name="radius" format="dimension" />
         <attr name="strokeWidth" format="dimension" />

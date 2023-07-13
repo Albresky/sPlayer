@@ -15,6 +15,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="blue">#41A5EE</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_2">#22FFFFFF</color><!--白色透明度22%-->
@@ -31,4 +32,5 @@
     <color name="line_color">#CBCBCB</color>
 
     <color name="gray">#E7E7E7</color>
+    <color name="dark_gray">#505050</color>
 </resources>
