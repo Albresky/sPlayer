@@ -51,22 +51,53 @@
                         android:layout_height="140dp"
                         android:src="@drawable/baseline_empty" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_scan_video"
-                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                        android:layout_width="140dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="16dp"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="扫描本地视频"
-                        android:textSize="14dp"
-                        android:textColor="@color/black"
-                        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                        app:backgroundTint="@color/transparent"
-                        app:cornerRadius="20dp"
-                        app:strokeColor="@color/gray"
-                        app:strokeWidth="@dimen/dp_1" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_scan_video"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                                android:layout_width="140dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="16dp"
+                                android:gravity="center"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:text="@string/txt_scan_video"
+                                android:textSize="14dp"
+                                android:textColor="@color/black"
+                                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:backgroundTint="@color/transparent"
+                                app:cornerRadius="20dp"
+                                app:strokeColor="@color/gray"
+                                app:strokeWidth="@dimen/dp_1" />
+
+                            <ProgressBar
+                                android:id="@+id/progress_bar"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:elevation="8dp"
+                                android:visibility="gone"
+                                android:indeterminate="true"
+                                android:indeterminateTint="@color/blue"
+                                android:indeterminateTintMode="src_in"
+                                app:layout_constraintBottom_toBottomOf="@+id/btn_scan_video"
+                                app:layout_constraintEnd_toEndOf="@+id/btn_scan_video"
+                                app:layout_constraintStart_toStartOf="@+id/btn_scan_video"
+                                app:layout_constraintTop_toTopOf="@+id/btn_scan_video" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

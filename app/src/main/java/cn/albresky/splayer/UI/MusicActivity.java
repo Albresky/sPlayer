@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -19,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.albresky.splayer.Adapter.MusicListAdapter;
 import cn.albresky.splayer.Bean.Song;
@@ -78,6 +82,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
         binding.btnScanMusic.setOnClickListener(v -> {
             Log.d(TAG, "initView: btnScanMusic clicked");
+            binding.btnScanMusic.setText("");
+            binding.progressBar.setVisibility(View.VISIBLE);
             getMusicList();
         });
         binding.btnPlay.setOnClickListener(v -> {
@@ -122,28 +128,37 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     }
 
     private void getMusicList() {
-        mList.clear();
-        mList = MusicScanner.getMusicData(this);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
-        if (mList.size() > 0) {
-            if (mAdapter == null) {
-                mAdapter = new MusicListAdapter(mList, this);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                rvMusic.setLayoutManager(layoutManager);
-                rvMusic.setAdapter(mAdapter);
-                rvMusic.setItemViewCacheSize(30);
-                layScanMusic.setVisibility(View.GONE);
-                binding.layRefresh.setVisibility(View.VISIBLE);
+        executor.execute(() -> {
+            // Background work
+            mList.clear();
+            mList = MusicScanner.getMusicData(this);
+            handler.post(() -> {
+                // UI Thread work
+                if (mList.size() > 0) {
+                    if (mAdapter == null) {
+                        mAdapter = new MusicListAdapter(mList, this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        rvMusic.setLayoutManager(layoutManager);
+                        rvMusic.setAdapter(mAdapter);
+                        rvMusic.setItemViewCacheSize(6);
+                        layScanMusic.setVisibility(View.GONE);
+                        binding.layRefresh.setVisibility(View.VISIBLE);
+                    } else {
+                        mAdapter.updateData(mList);
+                    }
+                } else {
+                    Toast.makeText(this, "未找到音频文件", Toast.LENGTH_SHORT).show();
+                }
                 binding.layRefresh.setRefreshing(false);
-            } else {
-                mAdapter.updateData(mList);
-                binding.layRefresh.setRefreshing(false);
-            }
+                binding.progressBar.setVisibility(View.GONE);
+                binding.btnScanMusic.setText(getResources().getText(R.string.txt_scan_music));
+            });
+        });
 
-        } else {
-            Toast.makeText(this, "未找到音频文件", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void playerStart(int position) {

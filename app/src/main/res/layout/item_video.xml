@@ -23,14 +23,38 @@
         android:textColor="@color/black"
         android:textSize="@dimen/sp_12" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/tv_video_thumbnail"
-        android:layout_width="128dp"
-        android:layout_height="72dp"
-        android:padding="1dp"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/baseline_video_24"
-        app:shapeAppearanceOverlay="@style/roundCornerImageStyle" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tv_video_thumbnail"
+            android:layout_width="128dp"
+            android:layout_height="80dp"
+            android:padding="1dp"
+            android:scaleType="centerCrop"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/baseline_video_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundCornerImageStyle" />
+
+        <TextView
+            android:id="@+id/tv_video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_margin="4dp"
+            android:paddingHorizontal="2dp"
+            android:text="03:56"
+            app:layout_constraintRight_toRightOf="@+id/tv_video_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/tv_video_thumbnail"
+            android:background="@drawable/txt_bg_transparent"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_marginLeft="5dp"
@@ -99,21 +123,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="right"
                 android:textSize="10sp"
                 android:text="1920x1080" />
-
-            <TextView
-                android:id="@+id/tv_video_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="3dp"
-                android:text="时间"
-                android:textColor="@color/black"
-                android:textSize="10sp" />
         </LinearLayout>
 
 

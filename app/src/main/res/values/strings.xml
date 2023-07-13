@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">sPlayer</string>
+    <string name="txt_scan_video">扫描本地视频</string>
+    <string name="txt_scan_music">扫描本地音乐</string>
 </resources>
