@@ -24,12 +24,9 @@ import cn.albresky.splayer.Utils.VideoScanner;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
+    private static List<Video> mVideos;
+    private static List<Bitmap> mVideoThumbnails;
     private final String TAG = "VideoAdapter";
-
-    private List<Video> mVideos;
-
-    private List<Bitmap> mVideoThumbnails;
-
     private Context mContext;
 
     private OnItemClickListener onItemClickListener;
@@ -62,7 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         Bitmap thumbnail = mVideoThumbnails.get(position);
         String duration = DatetimeUtils.formatTime(d);
 
-        if (d == 0 || thumbnail == null) {
+        if (thumbnail == null) {
             holder.videoWarning.setVisibility(View.VISIBLE);
         }
         holder.videoIndex.setText(String.valueOf(position + 1));

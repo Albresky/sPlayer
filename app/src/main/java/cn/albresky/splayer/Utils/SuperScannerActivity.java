@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.dhl.filescanner.AbstractScanCallback;
 import com.dhl.filescanner.FileScanner;
 
@@ -186,7 +185,7 @@ public class SuperScannerActivity extends AppCompatActivity {
                 tv.setText(item.path.substring(item.path.lastIndexOf('/') + 1));
             }
 
-            Glide.with(iv).load(item.path).into(iv);
+//            Glide.with(iv).load(item.path).into(iv);
             return view;
         }
 

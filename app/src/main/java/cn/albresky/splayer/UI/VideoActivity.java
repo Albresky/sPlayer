@@ -1,6 +1,7 @@
 package cn.albresky.splayer.UI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +72,11 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         executor.execute(() -> {
             //Background work
             mList.clear();
-            mList = VideoScanner.getVideoData(this);
+            // try to get video list from cache
+            if (!loadCache()) {
+                mList = VideoScanner.getVideoData(this);
+            }
+
             handler.post(() -> {
                 //UI Thread work
                 if (mList.size() > 0) {
@@ -78,11 +86,14 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         binding.rvVideo.setLayoutManager(layoutManager);
                         binding.rvVideo.setAdapter(mAdapter);
-                        binding.rvVideo.setItemViewCacheSize(6);
+                        binding.rvVideo.setItemViewCacheSize(20);
                         binding.layScanVideo.setVisibility(View.GONE);
                         binding.layRefresh.setVisibility(View.VISIBLE);
                     } else {
                         mAdapter.updateData(mList);
+                    }
+                    if (!writeCache()) {
+                        Log.d(TAG, "getVideoList: write cache failed");
                     }
                 } else {
                     Toast.makeText(this, "未找到视频文件", Toast.LENGTH_SHORT).show();
@@ -103,6 +114,33 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         intent.putExtra("videoInfo", mList.get(videoIndex));
         startActivity(intent);
+    }
+
+    private boolean loadCache() {
+        Log.d(TAG, "loadCache: load cache from shared preference");
+        SharedPreferences sp = getSharedPreferences("videoListCache", MODE_PRIVATE);
+        String json = sp.getString("videoList", "");
+        if (json.equals("")) {
+            return false;
+        } else {
+            Gson gson = new Gson();
+            mList = gson.fromJson(json, new TypeToken<List<Video>>() {
+            }.getType());
+            return true;
+        }
+    }
+
+    private boolean writeCache() {
+        Log.d(TAG, "writeCache: write cache to shared preference");
+        SharedPreferences sp = getSharedPreferences("videoListCache", MODE_PRIVATE);
+        if (sp.contains("videoList")) {
+            sp.edit().remove("videoList").apply();
+        }
+        Gson gson = new Gson();
+        String json = gson.toJson(mList);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("videoList", json);
+        return editor.commit();
     }
 
 }
