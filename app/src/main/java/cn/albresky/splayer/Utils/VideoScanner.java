@@ -37,7 +37,7 @@ public class VideoScanner {
                 video.width = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.WIDTH));
                 video.height = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.HEIGHT));
                 video.videoId = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
-
+                video.date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED));
                 File mFile = new File(video.path);
                 if (!mFile.exists()) {
                     Log.d(TAG, "getVideoData: " + video.path + " not exists");

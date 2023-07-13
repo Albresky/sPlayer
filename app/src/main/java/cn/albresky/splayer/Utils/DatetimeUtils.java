@@ -8,6 +8,9 @@ import java.util.Formatter;
 import java.util.Locale;
 
 public class DatetimeUtils {
+    public static StringBuilder mFormatBuilder = new StringBuilder();
+    public static Formatter mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
+
     /**
      * 获取当前完整的日期和时间
      *
@@ -78,12 +81,12 @@ public class DatetimeUtils {
      */
     public static String formatTime(long time) {
         String times = null;
-        if (String.valueOf(time).length() > 10) {
+        if (String.valueOf(time).length() <= 10) {
             // 10位的秒级别的时间戳
             times = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000));
         } else {
             // 13位的秒级别的时间戳
-            times = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time);
+            times = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time));
         }
         return times;
     }
@@ -120,10 +123,6 @@ public class DatetimeUtils {
         c.setTimeInMillis(millionSeconds);
         return simpleDateFormat.format(c.getTime());
     }
-
-
-    public static StringBuilder mFormatBuilder = new StringBuilder();
-    public static Formatter mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
     /**
      * 将长度转换为时间

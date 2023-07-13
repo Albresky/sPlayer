@@ -2,7 +2,9 @@ package cn.albresky.splayer.Bean;
 
 import org.litepal.crud.LitePalSupport;
 
-public class Video extends LitePalSupport {
+import java.io.Serializable;
+
+public class Video extends LitePalSupport implements Serializable {
 
     public String name;
 
@@ -17,6 +19,8 @@ public class Video extends LitePalSupport {
     public long size;
 
     public String type;
+
+    public String date;
 
     public int videoId;
     public boolean isCheck;
@@ -76,6 +80,14 @@ public class Video extends LitePalSupport {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getVideoId() {

@@ -34,40 +34,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     private OnItemClickListener onItemClickListener;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView videoThumbnail;
-
-        TextView videoIndex;
-
-        TextView videoName;
-
-        TextView videoPath;
-
-        TextView videoSize;
-
-        TextView videoType;
-
-        TextView videoResolution;
-
-        TextView videoDuration;
-
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            videoIndex = itemView.findViewById(R.id.tv_video_index);
-            videoThumbnail = itemView.findViewById(R.id.tv_video_thumbnail);
-            videoName = itemView.findViewById(R.id.tv_video_name);
-            videoPath = itemView.findViewById(R.id.tv_video_path);
-            videoSize = itemView.findViewById(R.id.tv_video_size);
-            videoResolution = itemView.findViewById(R.id.tv_video_resolution);
-            videoDuration = itemView.findViewById(R.id.tv_video_duration);
-            videoType = itemView.findViewById(R.id.tv_video_type);
-
-        }
-    }
-
     public VideoAdapter(List<Video> videos, @NonNull Context context) {
         mVideos = videos;
         mContext = context;
@@ -92,8 +58,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("TAG", "onBindViewHolder: " + position);
         Video video = mVideos.get(position);
-        String duration = DatetimeUtils.formatTime(video.getDuration());
+        int d = video.getDuration();
+        Bitmap thumbnail = mVideoThumbnails.get(position);
+        String duration = DatetimeUtils.formatTime(d);
 
+        if (d == 0 || thumbnail == null) {
+            holder.videoWarning.setVisibility(View.VISIBLE);
+        }
         holder.videoIndex.setText(String.valueOf(position + 1));
         holder.videoName.setText(video.getName());
         holder.videoPath.setText(video.getPath());
@@ -101,7 +72,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.videoResolution.setText(Converter.resolutionConvert(video.getWidth(), video.getHeight()));
         holder.videoDuration.setText(duration);
         holder.videoType.setText(video.getType());
-        holder.videoThumbnail.setImageBitmap(mVideoThumbnails.get(position));
+        holder.videoThumbnail.setImageBitmap(thumbnail);
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(mContext, "点击了第" + position + "项", Toast.LENGTH_SHORT).show();
             onItemClickListener.onItemClick(v, position);
@@ -120,5 +91,41 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView videoThumbnail;
+
+        TextView videoIndex;
+
+        TextView videoName;
+
+        TextView videoPath;
+
+        TextView videoSize;
+
+        TextView videoType;
+
+        TextView videoResolution;
+
+        TextView videoDuration;
+
+        TextView videoWarning;
+
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            videoIndex = itemView.findViewById(R.id.tv_video_index);
+            videoThumbnail = itemView.findViewById(R.id.tv_video_thumbnail);
+            videoName = itemView.findViewById(R.id.tv_video_name);
+            videoPath = itemView.findViewById(R.id.tv_video_path);
+            videoSize = itemView.findViewById(R.id.tv_video_size);
+            videoResolution = itemView.findViewById(R.id.tv_video_resolution);
+            videoDuration = itemView.findViewById(R.id.tv_video_duration);
+            videoType = itemView.findViewById(R.id.tv_video_type);
+            videoWarning = itemView.findViewById(R.id.tv_video_warning);
+        }
     }
 }

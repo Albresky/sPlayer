@@ -1,5 +1,6 @@
 package cn.albresky.splayer.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,13 +25,11 @@ import cn.albresky.splayer.databinding.ActivityVideoBinding;
 
 public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnItemClickListener {
 
-
+    private static List<Video> mList = new ArrayList<>();
     private final String TAG = "VideoActivity";
     private ActivityVideoBinding binding;
-
-    private List<Video> mList = new ArrayList<>();
-
     private VideoAdapter mAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,8 +96,13 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
 
     @Override
     public void onItemClick(View view, int position) {
-//        Toast.makeText(this, "点击了" + position, Toast.LENGTH_SHORT).show();
+        startVideoPlayerActivity(position);
     }
 
+    private void startVideoPlayerActivity(int videoIndex) {
+        Intent intent = new Intent(this, VideoPlayerActivity.class);
+        intent.putExtra("videoInfo", mList.get(videoIndex));
+        startActivity(intent);
+    }
 
 }

@@ -70,13 +70,13 @@
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
                                 android:text="@string/txt_scan_video"
-                                android:textSize="14dp"
                                 android:textColor="@color/black"
+                                android:textSize="14dp"
                                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
                                 app:backgroundTint="@color/transparent"
                                 app:cornerRadius="20dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
                                 app:strokeColor="@color/gray"
                                 app:strokeWidth="@dimen/dp_1" />
 
@@ -85,10 +85,10 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:elevation="8dp"
-                                android:visibility="gone"
                                 android:indeterminate="true"
                                 android:indeterminateTint="@color/blue"
                                 android:indeterminateTintMode="src_in"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="@+id/btn_scan_video"
                                 app:layout_constraintEnd_toEndOf="@+id/btn_scan_video"
                                 app:layout_constraintStart_toStartOf="@+id/btn_scan_video"
@@ -101,10 +101,10 @@
                 </LinearLayout>
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/lay_refresh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:id="@+id/lay_refresh">
+                    android:visibility="gone">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_video"
@@ -113,69 +113,6 @@
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_8"
-                android:paddingTop="@dimen/dp_8"
-                android:paddingRight="@dimen/dp_16"
-                android:paddingBottom="@dimen/dp_8">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <!--thumbnail-->
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/video_thumbnail"
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
-                        android:padding="1dp"
-                        android:src="@drawable/baseline_video_24"
-                        android:background="@color/white"
-                        app:shapeAppearanceOverlay="@style/roundCornerImageStyle" />
-
-                </RelativeLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/player_song_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingLeft="@dimen/dp_12"
-                    android:paddingRight="@dimen/dp_12"
-                    android:singleLine="true"
-                    android:text="Video - sPlayer"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_16" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_play"
-                    android:layout_width="@dimen/dp_36"
-                    android:layout_height="@dimen/dp_36"
-                    android:insetLeft="@dimen/dp_0"
-                    android:insetTop="@dimen/dp_0"
-                    android:insetRight="@dimen/dp_0"
-                    android:insetBottom="@dimen/dp_0"
-                    android:onClick="onClick"
-                    app:iconTint="@color/black"
-                    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:cornerRadius="@dimen/dp_18"
-                    app:icon="@drawable/baseline_play"
-                    app:iconPadding="0dp"
-                    app:iconGravity="textStart"
-                    android:stateListAnimator="@null"
-                    app:iconSize="@dimen/dp_36" />
-            </LinearLayout>
 
         </RelativeLayout>
     </LinearLayout>
