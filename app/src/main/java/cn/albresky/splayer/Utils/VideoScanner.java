@@ -75,7 +75,7 @@ public class VideoScanner {
             e.printStackTrace();
             bitmap = null;
         }
-        if (bitmap.getWidth() > 300) {
+        if (bitmap != null && bitmap.getWidth() > 300) {
             bitmap = Converter.createBitmapWithScale(bitmap, false);
         }
         return bitmap;

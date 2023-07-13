@@ -47,6 +47,10 @@ public class MusicScanner {
                     continue;
                 }
 
+                if (song.duration == 0) {
+                    Log.d(TAG, "getMusicData: " + song.path + " not supported");
+                    continue;
+                }
 
                 if (song.size > 1000 * 800) {
                     if (song.song.contains("-")) {
@@ -65,8 +69,15 @@ public class MusicScanner {
 
     public static Bitmap getAlbumPicture(Context context, String path, int type) {
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        mmr.setDataSource(path);
-        byte[] data = mmr.getEmbeddedPicture();
+        byte[] data;
+        try {
+            mmr.setDataSource(path);
+            data = mmr.getEmbeddedPicture();
+        } catch (Exception e) {
+            Log.e(TAG, "getAlbumPicture: ", e);
+            data = null;
+        }
+
         Bitmap albumPicture;
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;

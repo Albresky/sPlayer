@@ -40,32 +40,74 @@ public class Converter {
             type = category = "Unknown";
 
         }
-        if (!category.equals("audio") && !category.equals("video")) {
+        if (category.equals("audio")) {
+            // Audio MIME
+            switch (type) {
+                case "aac":
+                case "aac-adts":
+                    return "aac";
+                case "ac3":
+                    return "ac3";
+                case "mpeg":
+                    return "mp3";
+                case "mp4":
+                    return "m4a";
+                case "flac":
+                    return "flac";
+                case "ape":
+                    return "ape";
+                case "ogg":
+                    return "oga";
+                case "wav":
+                case "x-wav":
+                    return "wav";
+                case "webm":
+                    return "weba";
+                case "3gpp":
+                    return "3gp";
+                case "3gpp2":
+                    return "3g2";
+                default:
+                    return "unknown";
+            }
+        } else if (category.equals("video")) {
+            // Video MIME
+            switch (type) {
+                case "x-ms-wmv":
+                    return "wav";
+                case "webm":
+                    return "webm";
+                case "wma":
+                    return "wma";
+                case "mpeg":
+                    return "mpeg";
+                case "mpeg2":
+                case "mp2ts":
+                    return "m2ts";
+                case "mp4":
+                    return "mp4";
+                case "mpeg4":
+                    return "mpeg4";
+                case "mkv":
+                    return "mkv";
+                case "ogg":
+                    return "ogg";
+                case "mp2t":
+                    return "ts";
+                case "x-msvideo":
+                case "avi":
+                    return "avi";
+                case "x-flv":
+                    return "flv";
+                case "3gpp":
+                    return "3gp";
+                case "3gpp2":
+                    return "3g2";
+                default:
+                    return "unknown";
+            }
+        } else {
             return "Unknown";
-        }
-        switch (type) {
-            case "mpeg":
-                return "MP3";
-            case "wav":
-                return "WAV";
-            case "flac":
-                return "FLAC";
-            case "ape":
-                return "APE";
-            case "aac":
-                return "AAC";
-            case "ogg":
-                return "OGG";
-            case "wma":
-                return "WMA";
-            case "mp4":
-                return "MP4";
-            case "mkv":
-                return "MKV";
-            case "avi":
-                return "AVI";
-            default:
-                return "Unknown";
         }
     }
 
