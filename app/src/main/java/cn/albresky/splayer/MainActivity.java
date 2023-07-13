@@ -16,11 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import java.util.List;
-
-import cn.albresky.splayer.Bean.Video;
 import cn.albresky.splayer.UI.MusicActivity;
-import cn.albresky.splayer.Utils.VideoScanner;
+import cn.albresky.splayer.UI.VideoActivity;
 import cn.albresky.splayer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * test zone
          * */
-        List<Video> mVideos = VideoScanner.getVideoData(this);
+//        List<Video> mVideos = VideoScanner.getVideoData(this);
 
         // test zone end
     }
@@ -93,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), MusicActivity.class));
                 }
             }
+        });
+
+        binding.btnVideo.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), VideoActivity.class));
         });
     }
 

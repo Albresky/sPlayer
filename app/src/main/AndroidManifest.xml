@@ -34,6 +34,9 @@
             android:name=".UI.MusicActivity"
             android:exported="false" />
         <activity
+            android:name=".UI.VideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".Utils.SuperScannerActivity"
             android:exported="false" />
     </application>

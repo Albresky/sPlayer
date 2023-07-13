@@ -2,6 +2,9 @@ package cn.albresky.splayer.Utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -31,6 +34,9 @@ public class VideoScanner {
                 video.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
                 video.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
                 video.type = Converter.typeConvert(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.MIME_TYPE)));
+                video.width = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.WIDTH));
+                video.height = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.HEIGHT));
+                video.videoId = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
 
                 File mFile = new File(video.path);
                 if (!mFile.exists()) {
@@ -39,6 +45,7 @@ public class VideoScanner {
                 }
 
                 if (video.size > 1000 * 800) {
+                    video.isCheck = false;
                     list.add(video);
                 }
             }
@@ -47,4 +54,30 @@ public class VideoScanner {
         return list;
     }
 
+    public static Bitmap getVideoThumbnail(String path, int width, int height) {
+        File mFile = new File(path);
+        if (!mFile.exists()) {
+            Log.d(TAG, "createVideoThumbnail: " + path + " not exists");
+            return null;
+        }
+        Bitmap bitmap;
+        try {
+//            bitmap = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
+            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+            mmr.setDataSource(path);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                bitmap = mmr.getPrimaryImage();
+                bitmap = mmr.getScaledFrameAtTime(1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC, width, height);
+            } else {
+                bitmap = mmr.getFrameAtTime();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            bitmap = null;
+        }
+        if (bitmap.getWidth() > 300) {
+            bitmap = Converter.createBitmapWithScale(bitmap, false);
+        }
+        return bitmap;
+    }
 }

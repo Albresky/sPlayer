@@ -8,6 +8,22 @@ public class Converter {
 
     private static final String TAG = "Converter";
 
+    public static String resolutionConvert(int w, int h) {
+        return w + "x" + h;
+    }
+
+    public static String sizeConvert(long size) {
+        if (size < 1024) {
+            return size + "B";
+        } else if (size < 1024 * 1024) {
+            return size / 1024 + "KB";
+        } else if (size < 1024 * 1024 * 1024) {
+            return size / (1024 * 1024) + "MB";
+        } else {
+            return size / (1024 * 1024 * 1024) + "GB";
+        }
+    }
+
     public static String typeConvert(String mimeType) {
         String type;
         String category;

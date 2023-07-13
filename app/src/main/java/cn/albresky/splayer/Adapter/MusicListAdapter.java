@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -50,7 +49,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         }
     }
 
-    public MusicListAdapter(List<Song> songs, @Nullable Context context) {
+    public MusicListAdapter(List<Song> songs, @NonNull Context context) {
         mSongs = songs;
         mContext = context;
         mOnItemClickListener = (OnItemClickListener) context;

@@ -40,7 +40,7 @@
                 android:layout_above="@+id/lay_bottom">
 
                 <LinearLayout
-                    android:id="@+id/lay_scan_music"
+                    android:id="@+id/lay_scan_video"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -52,7 +52,7 @@
                         android:src="@drawable/baseline_empty" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_scan_music"
+                        android:id="@+id/btn_scan_video"
                         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                         android:layout_width="140dp"
                         android:layout_height="40dp"
@@ -76,7 +76,7 @@
                     android:id="@+id/lay_refresh">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_music"
+                        android:id="@+id/rv_video"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -98,16 +98,15 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <!--logo-->
+                    <!--thumbnail-->
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/player_song_cover"
-                        android:layout_width="@dimen/dp_48"
-                        android:layout_height="@dimen/dp_48"
+                        android:id="@+id/video_thumbnail"
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
                         android:padding="1dp"
-                        android:src="@mipmap/record"
-                        app:shapeAppearanceOverlay="@style/circleImageStyle"
-                        app:strokeColor="@color/gold_color"
-                        app:strokeWidth="@dimen/dp_2" />
+                        android:src="@drawable/baseline_video_24"
+                        android:background="@color/white"
+                        app:shapeAppearanceOverlay="@style/roundCornerImageStyle" />
 
                 </RelativeLayout>
 

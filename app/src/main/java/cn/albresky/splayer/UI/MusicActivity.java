@@ -132,6 +132,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 rvMusic.setLayoutManager(layoutManager);
                 rvMusic.setAdapter(mAdapter);
+                rvMusic.setItemViewCacheSize(30);
                 layScanMusic.setVisibility(View.GONE);
                 binding.layRefresh.setVisibility(View.VISIBLE);
                 binding.layRefresh.setRefreshing(false);
@@ -141,7 +142,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             }
 
         } else {
-            Toast.makeText(this, "no music found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "未找到音频文件", Toast.LENGTH_SHORT).show();
         }
     }
 
