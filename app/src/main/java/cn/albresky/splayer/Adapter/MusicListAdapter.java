@@ -1,6 +1,7 @@
 package cn.albresky.splayer.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.albresky.splayer.Bean.Song;
@@ -22,6 +24,8 @@ import cn.albresky.splayer.Utils.MusicScanner;
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
     private List<Song> mSongs;
+
+    private List<Bitmap> mSongCovers;
 
     private Context mContext;
 
@@ -53,6 +57,12 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         mSongs = songs;
         mContext = context;
         mOnItemClickListener = (OnItemClickListener) context;
+
+        // preload song covers
+        mSongCovers = new ArrayList<>();
+        for (Song song : mSongs) {
+            mSongCovers.add(MusicScanner.getAlbumPicture(mContext, song.getPath(), 1));
+        }
     }
 
 
@@ -75,7 +85,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.duration.setText(time);
         holder.position.setText(position + 1 + "");
         holder.songType.setText(song.getType());
-        holder.songCover.setImageBitmap(MusicScanner.getAlbumPicture(mContext, song.getPath(), 1));
+        holder.songCover.setImageBitmap(mSongCovers.get(position));
 
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(v.getContext(), "You clicked view ", Toast.LENGTH_SHORT).show();

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.albresky.splayer.Bean.Video;
@@ -26,6 +27,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private final String TAG = "VideoAdapter";
 
     private List<Video> mVideos;
+
+    private List<Bitmap> mVideoThumbnails;
 
     private Context mContext;
 
@@ -49,8 +52,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         TextView videoDuration;
 
-        List<Bitmap> videoThumbnails;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -63,6 +64,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             videoResolution = itemView.findViewById(R.id.tv_video_resolution);
             videoDuration = itemView.findViewById(R.id.tv_video_duration);
             videoType = itemView.findViewById(R.id.tv_video_type);
+
         }
     }
 
@@ -70,6 +72,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         mVideos = videos;
         mContext = context;
         onItemClickListener = (OnItemClickListener) context;
+
+        // prepare video thumbnails
+        mVideoThumbnails = new ArrayList<>();
+        for (Video video : mVideos) {
+            mVideoThumbnails.add(VideoScanner.getVideoThumbnail(video.getPath(), video.getWidth() / 10, video.getHeight() / 10));
+        }
     }
 
     @NonNull
@@ -93,8 +101,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.videoResolution.setText(Converter.resolutionConvert(video.getWidth(), video.getHeight()));
         holder.videoDuration.setText(duration);
         holder.videoType.setText(video.getType());
-        holder.videoThumbnail.setImageBitmap(VideoScanner.getVideoThumbnail(video.getPath(), video.getWidth() / 10, video.getHeight() / 10));
-
+        holder.videoThumbnail.setImageBitmap(mVideoThumbnails.get(position));
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(mContext, "点击了第" + position + "项", Toast.LENGTH_SHORT).show();
             onItemClickListener.onItemClick(v, position);
