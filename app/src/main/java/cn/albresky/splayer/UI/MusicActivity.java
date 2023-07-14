@@ -41,7 +41,6 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     private LinearLayout layScanMusic;
     private MusicListAdapter mAdapter;
     private List<Song> mList = new ArrayList<>();
-
     private int mIndex;
     private ObjectAnimator rotateAnimator;
     private ActivityMusiclistBinding binding;
@@ -140,6 +139,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             handler.post(() -> {
                 // UI Thread work
                 if (mList.size() > 0) {
+                    binding.playerSongCover.setClickable(true);
+                    binding.playerSongName.setClickable(true);
                     if (mAdapter == null) {
                         mAdapter = new MusicListAdapter(mList, this);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -165,12 +166,13 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     private void playerStart(int position) {
         try {
+//            mContorller.release();
             mContorller.setSongPath(mList.get(position).getPath());
             mContorller.play();
 
             binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
             binding.playerSongName.setSelected(true);
-            binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, mList.get(position).getPath(), 1));
+            binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, MusicScanner.isAlbumContainCover(mList.get(position).getPath()), 1));
             binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
 
             rotateAnimator.start();

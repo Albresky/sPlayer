@@ -1,9 +1,11 @@
 package cn.albresky.splayer.Utils;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.util.Log;
 
 public class Converter {
@@ -127,6 +129,14 @@ public class Converter {
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;
         return BitmapFactory.decodeResource(context.getResources(), resId, mOptions);
+    }
+
+    public static Uri getAudioAlbumImageContentUri(long albumId) {
+        Uri imgUri = null;
+        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+        imgUri = ContentUris.withAppendedId(sArtworkUri, albumId);
+        Log.d(TAG, "AudioCoverImgUri = " + imgUri.toString());
+        return imgUri;
     }
 }
 

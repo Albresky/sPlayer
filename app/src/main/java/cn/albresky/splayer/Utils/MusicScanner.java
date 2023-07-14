@@ -32,7 +32,7 @@ public class MusicScanner {
                 Song song = new Song();
                 song.song = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
                 song.singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
-                song.albumId = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                song.albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
                 song.album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
                 song.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 song.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
@@ -66,8 +66,7 @@ public class MusicScanner {
         return list;
     }
 
-
-    public static Bitmap getAlbumPicture(Context context, String path, int type) {
+    public static byte[] isAlbumContainCover(String path) {
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         byte[] data;
         try {
@@ -77,6 +76,11 @@ public class MusicScanner {
             Log.e(TAG, "getAlbumPicture: ", e);
             data = null;
         }
+        return data;
+    }
+
+    public static Bitmap getAlbumPicture(Context context, byte[] data, int type) {
+//        byte[] data = isAlbumContainCover(path);
 
         Bitmap albumPicture;
         BitmapFactory.Options mOptions = new BitmapFactory.Options();

@@ -9,7 +9,7 @@ public class Song implements Serializable {
 
     public String song;
 
-    public int albumId;
+    public long albumId;
 
     public String album;
 
@@ -22,6 +22,8 @@ public class Song implements Serializable {
     public String type;
 
     public boolean isCheck;
+
+    public boolean containCover;
 
     public String getSinger() {
         return singer;
@@ -63,7 +65,7 @@ public class Song implements Serializable {
         this.size = size;
     }
 
-    public int getAlbumId() {
+    public long getAlbumId() {
         return albumId;
     }
 
@@ -93,5 +95,13 @@ public class Song implements Serializable {
 
     public void setCheck(boolean check) {
         isCheck = check;
+    }
+
+    public boolean hasCover() {
+        return containCover;
+    }
+
+    public void setHasCover(boolean containCover) {
+        this.containCover = containCover;
     }
 }

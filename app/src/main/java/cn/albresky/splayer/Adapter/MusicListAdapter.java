@@ -31,28 +31,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     private OnItemClickListener mOnItemClickListener;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView songCover;
-        TextView songName;
-        TextView singer;
-        TextView duration;
-        TextView position;
-        TextView songType;
-        View songView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            songView = itemView;
-            songCover = itemView.findViewById(R.id.tv_song_cover);
-            songName = itemView.findViewById(R.id.tv_song_name);
-            singer = itemView.findViewById(R.id.tv_singer);
-            duration = itemView.findViewById(R.id.tv_duration_time);
-            position = itemView.findViewById(R.id.tv_position);
-            songType = itemView.findViewById(R.id.tv_song_type);
-        }
-    }
-
     public MusicListAdapter(List<Song> songs, @NonNull Context context) {
         mSongs = songs;
         mContext = context;
@@ -61,10 +39,16 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         // preload song covers
         mSongCovers = new ArrayList<>();
         for (Song song : mSongs) {
-            mSongCovers.add(MusicScanner.getAlbumPicture(mContext, song.getPath(), 1));
+            byte[] data = null;
+            data = MusicScanner.isAlbumContainCover(song.getPath());
+            if (data == null) {
+                song.setHasCover(false);
+            } else {
+                song.setHasCover(true);
+            }
+            mSongCovers.add(MusicScanner.getAlbumPicture(mContext, data, 1));
         }
     }
-
 
     @NonNull
     @Override
@@ -73,7 +57,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         final ViewHolder holder = new ViewHolder(view);
         return holder;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -98,13 +81,35 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         return mSongs.size();
     }
 
+    public void updateData(List<Song> songs) {
+        mSongs = songs;
+        notifyDataSetChanged();
+    }
+
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public void updateData(List<Song> songs) {
-        mSongs = songs;
-        notifyDataSetChanged();
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView songCover;
+        TextView songName;
+        TextView singer;
+        TextView duration;
+        TextView position;
+        TextView songType;
+        View songView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            songView = itemView;
+            songCover = itemView.findViewById(R.id.tv_song_cover);
+            songName = itemView.findViewById(R.id.tv_song_name);
+            singer = itemView.findViewById(R.id.tv_singer);
+            duration = itemView.findViewById(R.id.tv_duration_time);
+            position = itemView.findViewById(R.id.tv_position);
+            songType = itemView.findViewById(R.id.tv_song_type);
+        }
     }
 }

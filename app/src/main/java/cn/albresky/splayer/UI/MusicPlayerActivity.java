@@ -20,7 +20,6 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.R;
@@ -28,7 +27,6 @@ import cn.albresky.splayer.Service.MusicService;
 import cn.albresky.splayer.Utils.AnimationUtils;
 import cn.albresky.splayer.Utils.Converter;
 import cn.albresky.splayer.Utils.DatetimeUtils;
-import cn.albresky.splayer.Utils.MusicScanner;
 import cn.albresky.splayer.databinding.ActivityMusicPlayerBinding;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -43,6 +41,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
     private Song song;
+    private long duration;
     private ObjectAnimator rotateAnimator;
 
     @Override
@@ -80,18 +79,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         startMusicService();
 
-
-        Glide.with(this).load(R.drawable.detail_background)
-                .bitmapTransform(new BlurTransformation(this, 25), new CenterCrop(this))
-                .into(binding.playBackground);
-
-        // ToDo
-        binding.ivMusicCover.setImageBitmap(MusicScanner.getAlbumPicture(this, song.getPath(), 2));
-        binding.songName.setText(song.getSong());
-        binding.singerName.setText(song.getSinger());
-        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
-
-
         // Music Controller
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -109,8 +96,16 @@ public class MusicPlayerActivity extends AppCompatActivity {
             binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
         }
 
+        if (song.hasCover()) {
+            // load background
+            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
+            // load cover
+            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
+        } else {
+            Glide.with(this).load(R.mipmap.detail_background).into(binding.playBackground);
+            Glide.with(this).load(R.mipmap.record).into(binding.ivMusicCover);
+        }
         binding.seekBar.setMax(seekbarMax);
-        binding.ivMusicCover.setImageBitmap(MusicScanner.getAlbumPicture(this, song.getPath(), 2));
         binding.songName.setText(song.getSong());
         binding.singerName.setText(song.getSinger());
         binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));

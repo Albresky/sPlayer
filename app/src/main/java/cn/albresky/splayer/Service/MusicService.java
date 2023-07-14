@@ -37,10 +37,13 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         if (mPlayer == null) {
             mPlayer = new MediaPlayer();
-            mPlayer.setOnCompletionListener(this);
+            addListener();
         }
     }
 
+    public void addListener() {
+        mPlayer.setOnCompletionListener(this);
+    }
 
     @Override
     public void onDestroy() {
@@ -62,11 +65,20 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         public void setSongPath(String songPath) {
             try {
-                mPlayer.stop();
+                release();
+                mPlayer = new MediaPlayer();
+                addListener();
+//                mPlayer.stop();
                 mPlayer.setDataSource(songPath);
                 mPlayer.prepare();
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+
+        public void release() {
+            if (mPlayer != null) {
+                mPlayer.release();
             }
         }
 

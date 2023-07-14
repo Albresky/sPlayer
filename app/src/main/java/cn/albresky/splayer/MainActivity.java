@@ -15,6 +15,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import cn.albresky.splayer.UI.MusicActivity;
 import cn.albresky.splayer.UI.VideoActivity;
@@ -43,8 +46,23 @@ public class MainActivity extends AppCompatActivity {
         /*
          * test zone
          * */
-//        List<Video> mVideos = VideoScanner.getVideoData(this);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
+            int botm = 0, top = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                botm = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                top = insets.getSystemWindowInsetTop();
+                botm = insets.getSystemWindowInsetBottom();
+            }
+            Log.d(TAG, "onApplyWindowInsets: top = " + top + ", botm = " + botm);
+
+            binding.lvRoot.setPadding(0, 0, 0, 0);
+            return insets;
+        });
 
         // test zone end
     }
