@@ -1,15 +1,15 @@
 package cn.albresky.splayer.UI;
 
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -26,18 +26,23 @@ import java.util.concurrent.Executors;
 import cn.albresky.splayer.Adapter.MusicListAdapter;
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.R;
+import cn.albresky.splayer.Service.MusicService;
+import cn.albresky.splayer.Utils.AnimationUtils;
 import cn.albresky.splayer.Utils.Converter;
 import cn.albresky.splayer.Utils.MusicScanner;
 import cn.albresky.splayer.databinding.ActivityMusiclistBinding;
 
 public class MusicActivity extends AppCompatActivity implements MusicListAdapter.OnItemClickListener {
 
-    private static MediaPlayer mPlayer;
     private final String TAG = "MusicActivity";
+    private MusicService.AudioBinder mContorller;
+    private MusicConnection mConnection;
     private RecyclerView rvMusic;
     private LinearLayout layScanMusic;
     private MusicListAdapter mAdapter;
     private List<Song> mList = new ArrayList<>();
+
+    private int mIndex;
     private ObjectAnimator rotateAnimator;
     private ActivityMusiclistBinding binding;
 
@@ -72,18 +77,23 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 //            return insets;
 //        });
 
+
         binding.btnScanMusic.setOnClickListener(v -> {
             Log.d(TAG, "initView: btnScanMusic clicked");
             binding.btnScanMusic.setText("");
             binding.progressBar.setVisibility(View.VISIBLE);
+
+            // register service
+            startMusicService();
+
             getMusicList();
         });
         binding.btnPlay.setOnClickListener(v -> {
-            if (mPlayer != null) {
-                if (mPlayer.isPlaying()) {
+            if (mContorller != null) {
+                if (mContorller.isPlaying()) {
                     playerPause();
                 } else {
-                    mPlayer.start();
+                    mContorller.play();
                     binding.playerSongName.setSelected(true);
                     binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
                     rotateAnimator.resume();
@@ -109,18 +119,14 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
         binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.mipmap.record), 120, 120, false));
         binding.playerSongCover.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MusicPlayerActivity.class);
-
-
-            startActivity(intent);
+            startMusicPlayerActivity(mIndex);
+        });
+        binding.playerSongName.setOnClickListener(v -> {
+            startMusicPlayerActivity(mIndex);
         });
 
         // initialize cover animation
-        rotateAnimator = ObjectAnimator.ofFloat(binding.playerSongCover, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点
-        rotateAnimator.setDuration(12000);
-        rotateAnimator.setInterpolator(new LinearInterpolator());
-        rotateAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        rotateAnimator.setRepeatMode(ValueAnimator.RESTART);
+        rotateAnimator = AnimationUtils.getRotateAnimation(binding.playerSongCover);
     }
 
     private void getMusicList() {
@@ -158,14 +164,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     }
 
     private void playerStart(int position) {
-        if (mPlayer == null) {
-            mPlayer = new MediaPlayer();
-        }
         try {
-            mPlayer.reset();
-            mPlayer.setDataSource(mList.get(position).getPath());
-            mPlayer.prepare();
-            mPlayer.start();
+            mContorller.setSongPath(mList.get(position).getPath());
+            mContorller.play();
 
             binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
             binding.playerSongName.setSelected(true);
@@ -179,8 +180,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     }
 
     private void playerPause() {
-        if (mPlayer != null) {
-            mPlayer.pause();
+        if (mContorller != null) {
+            mContorller.pause();
             binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_play));
             binding.playerSongName.setSelected(false);
             rotateAnimator.pause();
@@ -191,11 +192,40 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     public void onItemClick(View view, int position) {
         Log.d(TAG, "onItemClick: position = " + position);
         playerStart(position);
+        mIndex = position;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mConnection);
     }
 
     private void startMusicPlayerActivity(int position) {
         Intent intent = new Intent(this, MusicPlayerActivity.class);
-        intent.putExtra("musicList", mList.get(position));
+        intent.putExtra("songInfo", mList.get(position));
         startActivity(intent);
     }
+
+    private void startMusicService() {
+        Intent intent = new Intent(this, MusicService.class);
+        startService(intent);
+        mConnection = new MusicConnection();
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
+    }
+
+    private class MusicConnection implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d(TAG, "onServiceConnected: ");
+            mContorller = (MusicService.AudioBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "onServiceDisconnected: ");
+        }
+    }
+
+
 }
