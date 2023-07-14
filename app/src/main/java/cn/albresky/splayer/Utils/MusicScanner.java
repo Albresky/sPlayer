@@ -91,7 +91,7 @@ public class MusicScanner {
                 albumPicture = Converter.createBitmapWithScale(albumPicture, 120, 120, false);
             } else {
                 // type != 1, large picture
-                albumPicture = Converter.createBitmapWithScale(albumPicture, 512, 512, false);
+                albumPicture = Converter.createBitmapWithScale(albumPicture, 1024, 1024, false);
             }
 
         }

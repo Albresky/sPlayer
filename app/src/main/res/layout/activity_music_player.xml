@@ -1,139 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lv_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/detail_background"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".UI.MusicPlayerActivity">
 
-    <Button
-        android:id="@+id/quit_btn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="left"
-        android:background="@drawable/baseline_arrow_down" />
 
-    <RelativeLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".MainActivity">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_music_cover"
-            android:layout_width="256dp"
-            android:layout_height="256dp"
-            android:layout_centerInParent="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/record"
-            app:shapeAppearanceOverlay="@style/circleImageStyle"
-            app:strokeColor="@color/gold_color" />
-
-    </RelativeLayout>
-
-
-    <TextView
-        android:id="@+id/song_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="歌曲名"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/singer_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="歌手"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-    <SeekBar
-        android:id="@+id/seek_bar"
-        style="@style/Widget.AppCompat.SeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:max="100" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-
-        <TextView
-            android:id="@+id/tv_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/tv_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="00:00"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/detail_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:showDividers="middle">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/play_way"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/detail_replay" />
-
-        <Button
-            android:id="@+id/play_prev"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/detail_skip_previous" />
-
-        <Button
-            android:id="@+id/play_or_pause"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/detail_pause_circle"
-            android:gravity="center" />
-
-        <Button
-            android:id="@+id/play_next"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/detail_skip_next" />
-
-        <Button
-            android:id="@+id/play_menu"
-            android:layout_width="35dp"
+            android:id="@+id/quit_btn"
+            android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="left"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/detail_music_queue" />
+            android:layout_marginTop="40dp"
+            android:background="@drawable/baseline_arrow_down" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="60dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="276dp"
+                    android:layout_height="276dp"
+                    android:background="@color/dark_gray_transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circleImageStyle" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_music_cover"
+                    android:layout_width="256dp"
+                    android:layout_height="256dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/record"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circleImageStyle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="歌曲名"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/singer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="歌手"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <SeekBar
+                    android:id="@+id/seek_bar"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:max="1000" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/tv_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="00:00"
+                        android:textColor="@color/gray" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/play_way"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/detail_replay" />
+
+                    <Button
+                        android:id="@+id/play_prev"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/detail_skip_previous" />
+
+                    <Button
+                        android:id="@+id/play_or_pause"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/detail_pause_circle"
+                        android:gravity="center" />
+
+                    <Button
+                        android:id="@+id/play_next"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/detail_skip_next" />
+
+                    <Button
+                        android:id="@+id/play_menu"
+                        android:layout_width="35dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/detail_music_queue" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
