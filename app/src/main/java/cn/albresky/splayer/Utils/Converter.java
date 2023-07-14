@@ -1,6 +1,8 @@
 package cn.albresky.splayer.Utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 
@@ -111,17 +113,21 @@ public class Converter {
         }
     }
 
-    public static Bitmap createBitmapWithScale(Bitmap bitmap, boolean filter) {
+    public static Bitmap createBitmapWithScale(Bitmap bitmap, int targetX, int targetY, boolean filter) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Matrix matrix = new Matrix();
-        float sx = ((float) 120 / width);
-        float sy = ((float) 120 / height);
+        float sx = ((float) targetX / width);
+        float sy = ((float) targetY / height);
         matrix.postScale(sx, sy);
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, filter);
     }
 
-
+    public static Bitmap createBitmapWithNoScale(Context context, int resId) {
+        BitmapFactory.Options mOptions = new BitmapFactory.Options();
+        mOptions.inScaled = false;
+        return BitmapFactory.decodeResource(context.getResources(), resId, mOptions);
+    }
 }
 
 

@@ -1,9 +1,9 @@
 package cn.albresky.splayer.Bean;
 
 
-import org.litepal.crud.LitePalSupport;
+import java.io.Serializable;
 
-public class Song extends LitePalSupport {
+public class Song implements Serializable {
 
     public String singer;
 

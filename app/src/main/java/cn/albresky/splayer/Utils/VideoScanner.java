@@ -76,7 +76,7 @@ public class VideoScanner {
             bitmap = null;
         }
         if (bitmap != null && bitmap.getWidth() > 300) {
-            bitmap = Converter.createBitmapWithScale(bitmap, false);
+            bitmap = Converter.createBitmapWithScale(bitmap, 120, 120, false);
         }
         return bitmap;
     }

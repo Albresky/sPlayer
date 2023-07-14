@@ -83,14 +83,14 @@ public class MusicScanner {
         mOptions.inScaled = false;
 
         if (data != null) {
-            albumPicture = Converter.createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), false);
+            albumPicture = Converter.createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), 120, 120, false);
         } else {
             if (type == 1) {
                 albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.record, mOptions);
             } else {
                 albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.notify_music, mOptions);
             }
-            albumPicture = Converter.createBitmapWithScale(albumPicture, false);
+            albumPicture = Converter.createBitmapWithScale(albumPicture, 120, 120, false);
         }
         return albumPicture;
     }

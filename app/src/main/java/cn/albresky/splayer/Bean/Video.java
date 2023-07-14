@@ -1,10 +1,8 @@
 package cn.albresky.splayer.Bean;
 
-import org.litepal.crud.LitePalSupport;
-
 import java.io.Serializable;
 
-public class Video extends LitePalSupport implements Serializable {
+public class Video implements Serializable {
 
     public String name;
 

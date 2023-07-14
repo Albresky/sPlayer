@@ -2,8 +2,7 @@ package cn.albresky.splayer.UI;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,21 +32,14 @@ import cn.albresky.splayer.databinding.ActivityMusiclistBinding;
 
 public class MusicActivity extends AppCompatActivity implements MusicListAdapter.OnItemClickListener {
 
-    private final String TAG = "MusicActivity";
-
-    private RecyclerView rvMusic;
-
-    private LinearLayout layScanMusic;
-
-    private MusicListAdapter mAdapter;
-
-    private List<Song> mList = new ArrayList<>();
-
-    private ObjectAnimator rotateAnimator;
-
-    private ActivityMusiclistBinding binding;
-
     private static MediaPlayer mPlayer;
+    private final String TAG = "MusicActivity";
+    private RecyclerView rvMusic;
+    private LinearLayout layScanMusic;
+    private MusicListAdapter mAdapter;
+    private List<Song> mList = new ArrayList<>();
+    private ObjectAnimator rotateAnimator;
+    private ActivityMusiclistBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +103,17 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+
         rvMusic = binding.rvMusic;
         layScanMusic = binding.layScanMusic;
 
-        BitmapFactory.Options mOptions = new BitmapFactory.Options();
-        mOptions.inScaled = false;
-        Bitmap defaultCover = BitmapFactory.decodeResource(this.getResources(), R.mipmap.record, mOptions);
-        binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(defaultCover, false));
+        binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.mipmap.record), 120, 120, false));
+        binding.playerSongCover.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MusicPlayerActivity.class);
+
+
+            startActivity(intent);
+        });
 
         // initialize cover animation
         rotateAnimator = ObjectAnimator.ofFloat(binding.playerSongCover, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点
@@ -195,5 +191,11 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     public void onItemClick(View view, int position) {
         Log.d(TAG, "onItemClick: position = " + position);
         playerStart(position);
+    }
+
+    private void startMusicPlayerActivity(int position) {
+        Intent intent = new Intent(this, MusicPlayerActivity.class);
+        intent.putExtra("musicList", mList.get(position));
+        startActivity(intent);
     }
 }
