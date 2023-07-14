@@ -2,6 +2,8 @@ package cn.albresky.splayer.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.R;
@@ -38,8 +42,12 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
         // preload song covers
         mSongCovers = new ArrayList<>();
+        getCovers();
+    }
+
+    private void getCovers() {
         for (Song song : mSongs) {
-            byte[] data = null;
+            byte[] data;
             data = MusicScanner.isAlbumContainCover(song.getPath());
             if (data == null) {
                 song.setHasCover(false);
@@ -83,7 +91,17 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     public void updateData(List<Song> songs) {
         mSongs = songs;
-        notifyDataSetChanged();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            // Background work
+            getCovers();
+            handler.post(() -> {
+                // UI Thread work
+                notifyDataSetChanged();
+            });
+        });
     }
 
 

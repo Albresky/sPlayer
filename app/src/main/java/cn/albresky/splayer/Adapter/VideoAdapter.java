@@ -2,6 +2,8 @@ package cn.albresky.splayer.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.albresky.splayer.Bean.Video;
 import cn.albresky.splayer.R;
@@ -38,6 +42,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         // prepare video thumbnails
         mVideoThumbnails = new ArrayList<>();
+        getThumbnails();
+    }
+
+    private void getThumbnails() {
         for (Video video : mVideos) {
             mVideoThumbnails.add(VideoScanner.getVideoThumbnail(video.getPath(), video.getWidth() / 10, video.getHeight() / 10));
         }
@@ -83,7 +91,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     public void updateData(List<Video> videos) {
         mVideos = videos;
-        notifyDataSetChanged();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            // Background work
+            getThumbnails();
+            handler.post(() -> {
+                // UI Thread work
+                notifyDataSetChanged();
+            });
+        });
     }
 
     public static interface OnItemClickListener {

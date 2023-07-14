@@ -89,7 +89,7 @@ public class MusicScanner {
         if (data != null) {
             albumPicture = Converter.createBitmapWithScale(BitmapFactory.decodeByteArray(data, 0, data.length, mOptions), 120, 120, false);
         } else {
-            albumPicture = BitmapFactory.decodeResource(context.getResources(), R.mipmap.record, mOptions);
+            albumPicture = BitmapFactory.decodeResource(context.getResources(), R.drawable.record, mOptions);
             // type == 1, small picture
             if (type == 1) {
                 albumPicture = Converter.createBitmapWithScale(albumPicture, 120, 120, false);

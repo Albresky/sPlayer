@@ -41,7 +41,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
     private Song song;
-    private long duration;
     private ObjectAnimator rotateAnimator;
 
     @Override
@@ -73,19 +72,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 
     private void initView() {
-        binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.mipmap.record), 512, 512, false));
+        binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 512, 512, false));
 
         song = (Song) getIntent().getSerializableExtra("songInfo");
 
         startMusicService();
 
         // Music Controller
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(UPDATE_PROGRESS);
-            }
-        });
+        Thread thread = new Thread(() -> handler.sendEmptyMessage(UPDATE_PROGRESS));
         thread.start();
 
 
@@ -102,8 +96,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
             // load cover
             Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
         } else {
-            Glide.with(this).load(R.mipmap.detail_background).into(binding.playBackground);
-            Glide.with(this).load(R.mipmap.record).into(binding.ivMusicCover);
+            Glide.with(this).load(R.drawable.detail_background).into(binding.playBackground);
+            Glide.with(this).load(R.drawable.record).into(binding.ivMusicCover);
         }
         binding.seekBar.setMax(seekbarMax);
         binding.songName.setText(song.getSong());
@@ -121,6 +115,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 rotateAnimator.resume();
                 binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
             }
+        });
+
+        binding.playMenu.setOnClickListener(v -> {
+            finish();
+        });
+
+        binding.btnBack.setOnClickListener(v -> {
+            finish();
         });
 
 
@@ -174,6 +176,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
             rotateAnimator.start();
             binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay, R.anim.bottom_down);
     }
 
     private class MusicConnection implements ServiceConnection {

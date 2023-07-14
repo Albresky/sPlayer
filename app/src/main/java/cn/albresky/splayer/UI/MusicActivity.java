@@ -116,7 +116,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         rvMusic = binding.rvMusic;
         layScanMusic = binding.layScanMusic;
 
-        binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.mipmap.record), 120, 120, false));
+        binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 120, 120, false));
         binding.playerSongCover.setOnClickListener(v -> {
             startMusicPlayerActivity(mIndex);
         });
@@ -226,6 +226,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         Intent intent = new Intent(this, MusicPlayerActivity.class);
         intent.putExtra("songInfo", mList.get(position));
         startActivity(intent);
+        overridePendingTransition(R.anim.bottom_up, R.anim.stay);
     }
 
     private void startMusicService() {
