@@ -23,13 +23,9 @@ import cn.albresky.splayer.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
-
-    private ActivityMainBinding binding;
-
     private final int PERMISSION_READ_EXTERNAL = 0;
-
     private final int PERMISSION_WRITE_EXTERNAL = 1;
-
+    private ActivityMainBinding binding;
     private boolean[] permissionGranted = {false, false};
 
     @Override
@@ -48,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
          * test zone
          * */
 //        List<Video> mVideos = VideoScanner.getVideoData(this);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         // test zone end
     }

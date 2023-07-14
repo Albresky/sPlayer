@@ -33,12 +33,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private final String TAG = "MusicPlayerActivity";
     private final int UPDATE_PROGRESS = 1;
+    private final int seekbarMax = 200;
+    private final int handleDelay = 500; // millisecond
     ActivityMusicPlayerBinding binding;
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
     private Song song;
-
     private long duration;
+    private ObjectAnimator rotateAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +76,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         startMusicService();
 
-
-        // ToDo
-        binding.ivMusicCover.setImageBitmap(MusicScanner.getAlbumPicture(this, song.getPath(), 2));
-        binding.songName.setText(song.getSong());
-        binding.singerName.setText(song.getSinger());
-        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
-
-
         // Music Controller
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -91,28 +85,54 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
         thread.start();
 
+
         // Cover Animation
-        ObjectAnimator rotateAnimator = AnimationUtils.getRotateAnimation(binding.ivMusicCover);
+        rotateAnimator = AnimationUtils.getRotateAnimation(binding.ivMusicCover);
         rotateAnimator.start();
+
+        binding.seekBar.setMax(seekbarMax);
+        binding.ivMusicCover.setImageBitmap(MusicScanner.getAlbumPicture(this, song.getPath(), 2));
+        binding.songName.setText(song.getSong());
+        binding.singerName.setText(song.getSinger());
+        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
+
+
+        binding.playOrPause.setOnClickListener(v -> {
+            if (mContorller.isPlaying()) {
+                mContorller.pause();
+                rotateAnimator.pause();
+                binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
+            } else {
+                mContorller.play();
+                rotateAnimator.resume();
+                binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
+            }
+        });
+
 
         // seekbar
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.d(TAG, "seekbar progress: " + progress);
                 //进度条改变
                 if (fromUser) {
-                    mContorller.seekTo(progress);
+                    mContorller.seekTo((int) (1.0 * progress / seekbarMax * song.getDuration()));
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 //开始触摸进度条
+                Log.d(TAG, "onStartTrackingTouch: ");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 //停止触摸进度条
+//                int progress = seekBar.getProgress();
+//                Log.d(TAG, "onStopTrackingTouch: " + progress);
+//                mContorller.seekTo(progress);
             }
         });
     }
@@ -126,12 +146,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private void updateProgress() {
         int currenPostion = mContorller.getCurrentPosition();
-        binding.seekBar.setProgress((int) (currenPostion / song.getDuration()) * 1000);
+        int newProgress = (int) ((1.0 * currenPostion / song.getDuration()) * seekbarMax);
+        binding.seekBar.setProgress(newProgress);
         binding.tvProgress.setText(DatetimeUtils.formatTime(currenPostion));
 
-        Log.d(TAG, "updateProgress: " + currenPostion + " / " + song.getDuration());
+//        Log.d(TAG, "updateProgress: " + "[" + newProgress + "]" + currenPostion + " / " + song.getDuration());
         //使用Handler每500毫秒更新一次进度条
-        handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, 500);
+        handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, handleDelay);
     }
 
     private class MusicConnection implements ServiceConnection {
