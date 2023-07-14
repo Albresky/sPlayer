@@ -9,6 +9,7 @@
 
 
     <ImageView
+        android:id="@+id/play_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
@@ -36,7 +37,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="55dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -82,8 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="歌曲名"
+                android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/singer_name"
@@ -97,7 +99,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -175,10 +177,12 @@
                         android:background="@drawable/detail_music_queue" />
 
                 </LinearLayout>
+
             </LinearLayout>
 
 
         </LinearLayout>
+
     </LinearLayout>
 
 
