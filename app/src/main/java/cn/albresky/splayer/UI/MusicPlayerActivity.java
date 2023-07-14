@@ -69,6 +69,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
     }
 
+
     private void initView() {
         binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.mipmap.record), 512, 512, false));
 
@@ -88,7 +89,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         // Cover Animation
         rotateAnimator = AnimationUtils.getRotateAnimation(binding.ivMusicCover);
-        rotateAnimator.start();
+        if (mContorller != null && mContorller.isPlaying()) {
+            rotateAnimator.start();
+            binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
+        }
 
         binding.seekBar.setMax(seekbarMax);
         binding.ivMusicCover.setImageBitmap(MusicScanner.getAlbumPicture(this, song.getPath(), 2));
@@ -115,7 +119,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d(TAG, "seekbar progress: " + progress);
-                //进度条改变
                 if (fromUser) {
                     mContorller.seekTo((int) (1.0 * progress / seekbarMax * song.getDuration()));
                 }
@@ -123,16 +126,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                //开始触摸进度条
                 Log.d(TAG, "onStartTrackingTouch: ");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //停止触摸进度条
-//                int progress = seekBar.getProgress();
-//                Log.d(TAG, "onStopTrackingTouch: " + progress);
-//                mContorller.seekTo(progress);
+                Log.d(TAG, "onStopTrackingTouch: ");
             }
         });
     }
@@ -149,10 +148,22 @@ public class MusicPlayerActivity extends AppCompatActivity {
         int newProgress = (int) ((1.0 * currenPostion / song.getDuration()) * seekbarMax);
         binding.seekBar.setProgress(newProgress);
         binding.tvProgress.setText(DatetimeUtils.formatTime(currenPostion));
+        handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, handleDelay);
+
+        if (mContorller.isPlaying()) {
+            playerViewStart();
+        }
 
 //        Log.d(TAG, "updateProgress: " + "[" + newProgress + "]" + currenPostion + " / " + song.getDuration());
-        //使用Handler每500毫秒更新一次进度条
-        handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, handleDelay);
+    }
+
+    public void playerViewStart() {
+        if (rotateAnimator.isPaused()) {
+            rotateAnimator.resume();
+        } else if (!rotateAnimator.isRunning()) {
+            rotateAnimator.start();
+            binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
+        }
     }
 
     private class MusicConnection implements ServiceConnection {

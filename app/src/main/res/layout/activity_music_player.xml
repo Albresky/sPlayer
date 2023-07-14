@@ -157,7 +157,7 @@
                         android:id="@+id/play_or_pause"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/detail_pause_circle"
+                        android:background="@drawable/detail_play_circle"
                         android:gravity="center" />
 
                     <Button

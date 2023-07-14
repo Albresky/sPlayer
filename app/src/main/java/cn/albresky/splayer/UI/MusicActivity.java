@@ -196,6 +196,21 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     }
 
     @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        if (mContorller != null) {
+            if (mContorller.isPlaying()) {
+                binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
+                rotateAnimator.resume();
+            } else {
+                binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_play));
+                rotateAnimator.pause();
+            }
+        }
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mContorller != null)
