@@ -27,9 +27,13 @@
     <color name="gold_color">#FF9D00</color>
     <color name="black">#000000</color>
 
+
     <color name="bottom_bg_color">#1A191D</color>
 
     <color name="line_color">#CBCBCB</color>
+
+    <color name="set_gray">#808080</color>
+    <color name="Red">#FF1100</color>
 
     <color name="gray">#E7E7E7</color>
     <color name="dark_gray">#505050</color>
