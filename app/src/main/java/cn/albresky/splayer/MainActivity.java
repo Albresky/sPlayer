@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import cn.albresky.splayer.UI.MusicActivity;
+import cn.albresky.splayer.UI.SettingsActivity;
 import cn.albresky.splayer.UI.VideoActivity;
 import cn.albresky.splayer.databinding.ActivityMainBinding;
 
@@ -32,11 +34,23 @@ public class MainActivity extends AppCompatActivity {
     private boolean[] permissionGranted = {false, false};
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected() called with: item = [" + item + "]");
+        if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+//        setSupportActionBar(binding.toolbar);
 
         Log.d(TAG, "onCreate() called");
 
@@ -62,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
             binding.lvRoot.setPadding(0, 0, 0, 0);
             return insets;
+        });
+
+        binding.toolbar.getMenu().getItem(0).setOnMenuItemClickListener(item -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
         });
 
         // test zone end

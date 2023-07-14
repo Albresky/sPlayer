@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".UI.SettingsActivity"
+            android:exported="false" />
+
         <service
             android:name=".Service.MusicService"
             android:enabled="true"

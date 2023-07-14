@@ -12,6 +12,7 @@
         android:id="@+id/play_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="player background"
         android:scaleType="centerCrop"
         android:src="@drawable/detail_background"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,8 +30,8 @@
             android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="20dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/baseline_arrow_down" />
 
@@ -128,7 +129,7 @@
                         android:id="@+id/tv_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:text="00:00"
                         android:textColor="@color/gray" />
                 </RelativeLayout>
@@ -143,20 +144,23 @@
 
                     <Button
                         android:id="@+id/play_way"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:background="@drawable/detail_replay" />
 
                     <Button
                         android:id="@+id/play_prev"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@drawable/detail_skip_previous" />
 
                     <Button
                         android:id="@+id/play_or_pause"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/detail_play_circle"
@@ -164,16 +168,18 @@
 
                     <Button
                         android:id="@+id/play_next"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:background="@drawable/detail_skip_next" />
 
                     <Button
                         android:id="@+id/play_menu"
+                        style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="35dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:background="@drawable/detail_music_queue" />
 
                 </LinearLayout>

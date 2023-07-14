@@ -37,7 +37,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private final int UPDATE_PROGRESS = 1;
     private final int seekbarMax = 200;
     private final int handleDelay = 500; // millisecond
-    ActivityMusicPlayerBinding binding;
+    private ActivityMusicPlayerBinding binding;
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
     private Song song;

@@ -72,7 +72,7 @@
                                 android:insetBottom="0dp"
                                 android:text="@string/txt_scan_music"
                                 android:textColor="@color/black"
-                                android:textSize="14dp"
+                                android:textSize="14sp"
                                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                                 app:backgroundTint="@color/transparent"
                                 app:cornerRadius="20dp"
@@ -120,9 +120,9 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorPrimary"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_8"
+                android:paddingStart="@dimen/dp_8"
                 android:paddingTop="@dimen/dp_8"
-                android:paddingRight="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_8">
 
                 <RelativeLayout
