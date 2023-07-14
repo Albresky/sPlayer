@@ -198,7 +198,11 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(mConnection);
+        if (mContorller != null)
+            mContorller.stop();
+        if (mConnection != null) {
+            unbindService(mConnection);
+        }
     }
 
     private void startMusicPlayerActivity(int position) {
