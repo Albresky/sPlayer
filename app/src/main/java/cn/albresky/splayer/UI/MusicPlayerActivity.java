@@ -110,7 +110,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         resetUI();
 
-
         // set button Click Listeners
         binding.playOrPause.setOnClickListener(v -> {
             if (mContorller == null) return;
@@ -224,6 +223,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     public void resetUI() {
         binding.seekBar.setMax(seekbarMax);
         binding.songName.setText(song.getSong());
+        binding.songName.setSelected(true);
         binding.singerName.setText(song.getSinger());
         binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
         rotateAnimator.end();
@@ -274,6 +274,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         if (progressBuf == 0 || newProgress == seekbarMax) {
             Log.d(TAG, "updateProgress: reachMax" + ",playType:" + playType);
+            progressBuf = 3;
 
             switch (playType) {
                 case 0:
