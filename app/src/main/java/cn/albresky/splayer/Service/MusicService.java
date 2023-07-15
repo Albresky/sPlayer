@@ -43,6 +43,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         if (mPlayer == null) {
             mPlayer = new MediaPlayer();
+            mPlayer.setLooping(false);
             addListener();
         }
     }
@@ -67,6 +68,9 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public void onCompletion(MediaPlayer mp) {
         Log.d(TAG, "onCompletion: song completed");
+        if (mp.isLooping()) {
+            mp.start();
+        }
     }
 
 
@@ -79,11 +83,21 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             songList = list;
         }
 
+
+        public void setLooping(boolean isLooping) {
+            mPlayer.setLooping(isLooping);
+        }
+
+        public void isLooping() {
+            mPlayer.isLooping();
+        }
+
         public void prepare(int index) {
             songIndex = index;
             try {
                 if (mPlayer == null) {
                     mPlayer = new MediaPlayer();
+                    mPlayer.setLooping(false);
                     addListener();
                 }
                 mPlayer.reset();

@@ -169,9 +169,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             handler.post(() -> {
                 // UI Thread work
                 if (mList.size() > 0) {
-                    binding.playerSongCover.setEnabled(true);
-                    binding.playerSongName.setEnabled(true);
-                    binding.btnPlay.setEnabled(true);
+//                    binding.playerSongCover.setEnabled(true);
+//                    binding.playerSongName.setEnabled(true);
+//                    binding.btnPlay.setEnabled(true);
                     if (mAdapter == null) {
                         mAdapter = new MusicListAdapter(mList, this);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -239,6 +239,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         Log.d(TAG, "onItemClick: position = " + position);
         playerStart(position);
         mIndex = position;
+        binding.playerSongCover.setEnabled(true);
+        binding.playerSongName.setEnabled(true);
+        binding.btnPlay.setEnabled(true);
     }
 
     @Override

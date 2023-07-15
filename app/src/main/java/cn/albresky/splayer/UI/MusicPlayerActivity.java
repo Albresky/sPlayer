@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.Interface.IMusicController;
@@ -39,7 +40,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
-
     private final String TAG = "MusicPlayerActivity";
     private final int UPDATE_PROGRESS = 1;
     private final int seekbarMax = 200;
@@ -47,6 +47,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private ActivityMusicPlayerBinding binding;
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
+
+    private int playType = 1; // 0: loop one, 1: loop all, 2: shuffle
 
     private List<Song> mList = new ArrayList<>();
     private Song song;
@@ -130,15 +132,34 @@ public class MusicPlayerActivity extends AppCompatActivity {
             finish();
         });
 
+        binding.playType.setOnClickListener(v -> {
+            playType = (playType + 1) % 3;
+            switch (playType) {
+                case 0:
+                    binding.playType.setBackgroundResource(R.drawable.baseline_repeat_one);
+                    mContorller.setLooping(true);
+                    break;
+                case 1:
+                    binding.playType.setBackgroundResource(R.drawable.baseline_repeat_all);
+                    mContorller.setLooping(false);
+                    break;
+                case 2:
+                    binding.playType.setBackgroundResource(R.drawable.baseline_shuffle);
+                    mContorller.setLooping(false);
+                    break;
+            }
+        });
+
         binding.playNext.setOnClickListener(v -> {
             Log.d(TAG, "onClick: next");
-            int nextIndex = songIndex >= mList.size() - 1 ? 0 : songIndex + 1;
-            songIndex = nextIndex;
-            song = mList.get(songIndex);
-            mContorller.prepare(songIndex);
-            mContorller.play();
-            resetUI();
-            startAnimation();
+            playNext();
+//            int nextIndex = songIndex >= mList.size() - 1 ? 0 : songIndex + 1;
+//            songIndex = nextIndex;
+//            song = mList.get(songIndex);
+//            mContorller.prepare(songIndex);
+//            mContorller.play();
+//            resetUI();
+//            startAnimation();
         });
 
         binding.playPrev.setOnClickListener(v -> {
@@ -173,6 +194,29 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 Log.d(TAG, "onStopTrackingTouch: ");
             }
         });
+    }
+
+    private void playNext() {
+        int nextIndex = songIndex >= mList.size() - 1 ? 0 : songIndex + 1;
+        songIndex = nextIndex;
+        song = mList.get(songIndex);
+        mContorller.prepare(songIndex);
+        mContorller.play();
+        resetUI();
+        startAnimation();
+    }
+
+    private void playRandom() {
+        int randomIndex = songIndex;
+        while (randomIndex == songIndex) {
+            randomIndex = new Random().nextInt(mList.size());
+        }
+        songIndex = randomIndex;
+        song = mList.get(songIndex);
+        mContorller.prepare(songIndex);
+        mContorller.play();
+        resetUI();
+        startAnimation();
     }
 
     public void resetUI() {
@@ -222,6 +266,21 @@ public class MusicPlayerActivity extends AppCompatActivity {
         binding.tvProgress.setText(DatetimeUtils.formatTime(currenPostion));
         handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, handleDelay);
 
+        if (newProgress == seekbarMax) {
+            Log.d(TAG, "updateProgress: reachMax" + ",playType:" + playType);
+            switch (playType) {
+                case 0:
+                    binding.seekBar.setProgress(0);
+                    binding.tvProgress.setText(DatetimeUtils.formatTime(0));
+                    break;
+                case 1:
+                    playNext();
+                    break;
+                case 2:
+                    playRandom();
+                    break;
+            }
+        }
         if (mContorller.isPlaying()) {
             playerViewStart();
         }
