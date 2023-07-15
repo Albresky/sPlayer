@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 这里是设置背景色-->
-    <solid android:color="@color/dark_gray" />
+    <solid android:color="@color/white_transparent" />
     <!-- 这里是设置为四周 也可以单独设置某个位置为圆角-->
-    <corners android:radius="@dimen/dp_4"/>
+    <corners android:radius="@dimen/dp_30"/>
 </shape>
