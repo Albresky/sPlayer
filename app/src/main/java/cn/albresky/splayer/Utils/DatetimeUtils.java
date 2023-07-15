@@ -149,11 +149,11 @@ public class DatetimeUtils {
      * 格式化获取到的时间
      */
     public static String formatTime(int time) {
+        int mm = time / 1000 / 60;
         if (time / 1000 % 60 < 10) {
-            return time / 1000 / 60 + ":0" + time / 1000 % 60;
+            return (mm < 10 ? "0" + mm : mm) + ":0" + time / 1000 % 60;
 
         } else {
-            int mm = time / 1000 / 60;
             return (mm < 10 ? "0" + mm : mm) + ":" + time / 1000 % 60;
         }
     }

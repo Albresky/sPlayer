@@ -9,8 +9,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingRight="@dimen/dp_10"
     android:paddingTop="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_10">
 
     <TextView
@@ -18,8 +18,8 @@
         android:layout_width="@dimen/dp_15"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:text="1"
         android:gravity="center"
+        android:text="1"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_12" />
 
@@ -27,9 +27,9 @@
         android:id="@+id/tv_song_cover"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"
-        android:padding="1dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/baseline_music_note_64"
+        android:padding="1dp"
+        android:src="@drawable/baseline_music"
         app:shapeAppearanceOverlay="@style/circleImageStyle" />
 
     <LinearLayout
@@ -45,8 +45,8 @@
             <TextView
                 android:id="@+id/tv_song_name"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:maxLines="1"
                 android:text="歌曲名"
                 android:textColor="@color/black"
@@ -56,10 +56,10 @@
                 android:id="@+id/tv_song_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/txt_edge"
                 android:maxLines="1"
                 android:paddingHorizontal="4dp"
                 android:text="falc"
-                android:background="@drawable/txt_edge"
                 android:textAllCaps="true"
                 android:textColor="@color/gold_color"
                 android:textSize="12sp" />

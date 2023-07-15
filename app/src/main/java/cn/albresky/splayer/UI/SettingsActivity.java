@@ -55,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
             clearAllCache();
         });
 
-        binding.btnExit.setOnClickListener(v -> {
+        binding.btnRestartApp.setOnClickListener(v -> {
             Log.d(TAG, "btn exit clicked: ");
             System.exit(0);
         });

@@ -82,11 +82,11 @@
                 android:id="@+id/song_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="30dp"
-                android:text="歌曲名"
-                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:text="@string/tv_txt_default_song_name"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="歌手"
+                android:text="@string/tv_txt_default_singer"
                 android:textColor="@color/line_color"
                 android:textSize="20sp" />
 
@@ -120,9 +120,9 @@
                     android:id="@+id/tv_progress"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
-                    android:text="00:00"
+                    android:gravity="right"
+                    android:text="@string/tv_txt_default_current_time"
                     android:textColor="@color/line_color" />
 
                 <SeekBar
@@ -137,9 +137,9 @@
                     android:id="@+id/tv_total"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="00:00"
+                    android:gravity="left"
+                    android:text="@string/tv_txt_default_duration"
                     android:textColor="@color/line_color" />
 
             </LinearLayout>

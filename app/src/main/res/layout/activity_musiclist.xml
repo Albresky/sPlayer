@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="本地音乐"
+                android:text="@string/tv_txt_ma_title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -155,7 +155,7 @@
                     android:paddingLeft="@dimen/dp_12"
                     android:paddingRight="@dimen/dp_12"
                     android:singleLine="true"
-                    android:text="Music - sPlayer"
+                    android:text="@string/tv_txt_default_song_info"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_16" />
 

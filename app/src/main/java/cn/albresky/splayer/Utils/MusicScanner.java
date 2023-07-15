@@ -53,6 +53,14 @@ public class MusicScanner {
                     continue;
                 }
 
+                if (song.singer.equals("<unknown>")) {
+                    song.singer = context.getString(R.string.unknown_artist);
+                }
+
+                if (song.album.equals("audio")) {
+                    song.album = context.getString(R.string.unknown_album);
+                }
+
                 if (song.size > 1000 * 800) {
                     if (song.song.contains("-")) {
                         String[] str = song.song.split("-");
@@ -88,8 +96,6 @@ public class MusicScanner {
     }
 
     public static Bitmap getAlbumPicture(Context context, byte[] data, int type) {
-//        byte[] data = isAlbumContainCover(path);
-
         Bitmap albumPicture;
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;
@@ -105,11 +111,8 @@ public class MusicScanner {
                 // type != 1, large picture
                 albumPicture = Converter.createBitmapWithScale(albumPicture, 1024, 1024, false);
             }
-
         }
         return albumPicture;
     }
-
-
 }
 

@@ -79,6 +79,7 @@ public class SuperScanner {
                 } else {
                     song.song = "未知歌曲";
                     song.singer = "未知艺术家";
+                    song.album = "未知专辑";
                 }
                 songs.add(song);
             }

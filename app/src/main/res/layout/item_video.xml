@@ -34,7 +34,7 @@
             android:background="@color/colorPrimary"
             android:padding="1dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/baseline_video_24"
+            android:src="@drawable/baseline_video_half"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundCornerImageStyle" />
