@@ -16,9 +16,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     private final String TAG = "MusicService";
     private final IBinder mBinder = new AudioBinder();
-
+    //    private volatile boolean isPrepared = false;
     private int songIndex;
-
     private List<Song> songList = new ArrayList<>();
     private MediaPlayer mPlayer;
 
@@ -31,7 +30,6 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         Log.d(TAG, "onStartCommand: MusicService started");
         return super.onStartCommand(intent, flags, startId);
     }
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,6 +49,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     public void addListener() {
         mPlayer.setOnCompletionListener(this);
+//        mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                isPrepared = true;
+//            }
+//        });
     }
 
     @Override
@@ -78,6 +82,10 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         public void prepare(int index) {
             songIndex = index;
             try {
+                if (mPlayer == null) {
+                    mPlayer = new MediaPlayer();
+                    addListener();
+                }
                 mPlayer.reset();
                 mPlayer.setDataSource(songList.get(index).getPath());
                 mPlayer.prepare();
@@ -90,40 +98,43 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             return songIndex;
         }
 
-        public void setSongPath(String songPath) {
-            try {
-                mPlayer.reset();
-              /*  release();
-                mPlayer = new MediaPlayer();*/
-                addListener();
-                mPlayer.setDataSource(songPath);
-                mPlayer.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-//        public void release() {
-//            if (mPlayer != null) {
-//                mPlayer.release();
+//        public void setSongPath(String songPath) {
+//            try {
+//                mPlayer.reset();
+//                addListener();
+//                mPlayer.setDataSource(songPath);
+//                mPlayer.prepare();
+//            } catch (Exception e) {
+//                e.printStackTrace();
 //            }
 //        }
 
-        public void play() {
+//        public boolean isPrepared() {
+//            return isPrepared;
+//        }
+
+        public boolean play() {
             try {
-                mPlayer.start();
+//                if (mPlayer != null && isPrepared) {
+                if (mPlayer != null) {
+                    mPlayer.start();
+                    return true;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return false;
         }
 
         public void pause() {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 mPlayer.pause();
             }
         }
 
         public void stop() {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 mPlayer.stop();
                 mPlayer.release();
@@ -132,6 +143,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
 
         public boolean isPlaying() {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 return mPlayer.isPlaying();
             }
@@ -139,6 +151,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
 
         public int getDuration() {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 return mPlayer.getDuration();
             }
@@ -146,6 +159,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
 
         public int getCurrentPosition() {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 return mPlayer.getCurrentPosition();
             }
@@ -153,6 +167,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
 
         public void seekTo(int position) {
+//            if (mPlayer != null && isPrepared) {
             if (mPlayer != null) {
                 mPlayer.seekTo(position);
             }

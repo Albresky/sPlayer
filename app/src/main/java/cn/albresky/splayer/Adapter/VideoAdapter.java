@@ -46,8 +46,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     private void getThumbnails() {
-        for (Video video : mVideos) {
-            mVideoThumbnails.add(VideoScanner.getVideoThumbnail(video.getPath(), video.getWidth() / 10, video.getHeight() / 10));
+        try {
+            for (Video video : mVideos) {
+                mVideoThumbnails.add(VideoScanner.getVideoThumbnail(video.getPath(), video.getWidth() / 10, video.getHeight() / 10));
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "getThumbnails: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -90,6 +95,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     public void updateData(List<Video> videos) {
+        Log.d(TAG, "updateData: ");
+        mVideos.clear();
         mVideos = videos;
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -101,6 +108,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 notifyDataSetChanged();
             });
         });
+        executor.shutdown();
     }
 
     public static interface OnItemClickListener {

@@ -60,12 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
             System.exit(0);
         });
 
-//        binding.toolbar.getMenu().getItem(0).setOnMenuItemClickListener(item -> {
-//            Log.d(TAG, "onMenuItemClick: ");
-//            finish();
-//            return true;
-//        });
-
         binding.toolbar.setNavigationOnClickListener(v -> {
             Log.d(TAG, "onNavigationClick: ");
             finish();

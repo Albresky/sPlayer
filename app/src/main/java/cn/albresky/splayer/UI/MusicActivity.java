@@ -64,26 +64,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     private void initView() {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-//        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-//        ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
-//            int botm = 0, top = 0;
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
-//                botm = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
-//
-//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                top = insets.getSystemWindowInsetTop();
-//                botm = insets.getSystemWindowInsetBottom();
-//            }
-//            Log.d(TAG, "onApplyWindowInsets: top = " + top + ", botm = " + botm);
-//
-//            binding.layBody.setPadding(0, top, 0, top * 2);
-//            binding.layBottom.setPadding(0, botm / 10, 0, botm);
-//            return insets;
-//        });
-
         loadSettings();
+
         binding.btnScanMusic.setOnClickListener(v -> {
             Log.d(TAG, "initView: btnScanMusic clicked");
             binding.btnScanMusic.setText("");
@@ -94,20 +76,30 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
             getMusicList();
         });
+
+        binding.btnPlay.setEnabled(false);
         binding.btnPlay.setOnClickListener(v -> {
             if (mContorller != null) {
+//                if (!mContorller.isPrepared()) {
+//                    Log.d(TAG, "initView:[btn_play clicked] [isPrepared=false] => playerStart(0)");
+//                    playerStart(0);
+//                } else
                 if (mContorller.isPlaying()) {
+                    Log.d(TAG, "initView:[btn_play clicked] [isPlaying=true] => playerPause()");
                     playerPause();
                 } else {
+                    Log.d(TAG, "initView:[btn_play clicked] [isPlaying=false] => playerResume()");
                     mContorller.play();
                     binding.playerSongName.setSelected(true);
                     binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
                     rotateAnimator.resume();
                 }
             } else {
+                Log.d(TAG, "initView:[btn_play clicked] [mContorller=null] => playerStart(0)");
                 playerStart(0);
             }
         });
+
         binding.layRefresh.setOnRefreshListener(
                 () -> {
                     Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
@@ -129,16 +121,23 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         rvMusic = binding.rvMusic;
         layScanMusic = binding.layScanMusic;
 
+        // initialize cover animation
+        rotateAnimator = AnimationUtils.getRotateAnimation(binding.playerSongCover);
+
         binding.playerSongCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 120, 120, false));
+
+        binding.playerSongCover.setEnabled(false);
         binding.playerSongCover.setOnClickListener(v -> {
+            Log.d(TAG, "initView: playerSongCover clicked");
             startMusicPlayerActivity(mIndex);
         });
+        binding.playerSongName.setEnabled(false);
         binding.playerSongName.setOnClickListener(v -> {
+            Log.d(TAG, "initView: playerSongName clicked");
             startMusicPlayerActivity(mIndex);
         });
 
-        // initialize cover animation
-        rotateAnimator = AnimationUtils.getRotateAnimation(binding.playerSongCover);
+
     }
 
     private void getMusicList() {
@@ -170,8 +169,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             handler.post(() -> {
                 // UI Thread work
                 if (mList.size() > 0) {
-                    binding.playerSongCover.setClickable(true);
-                    binding.playerSongName.setClickable(true);
+                    binding.playerSongCover.setEnabled(true);
+                    binding.playerSongName.setEnabled(true);
+                    binding.btnPlay.setEnabled(true);
                     if (mAdapter == null) {
                         mAdapter = new MusicListAdapter(mList, this);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -207,24 +207,22 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         enableDeepScan = sharedPreferences.getBoolean("enableDeepScan", false);
     }
 
-    private void playerStart(int position) {
+    private boolean playerStart(int position) {
         try {
-//            mContorller.release();
-//            mContorller.setSongPath(mList.get(position).getPath());
-
             mContorller.updateSongList(mList);
             mContorller.prepare(position);
             mContorller.play();
             updatePlayerUI(position);
-//            binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
-//            binding.playerSongName.setSelected(true);
-//            binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, MusicScanner.isAlbumContainCover(mList.get(position).getPath()), 1));
-//            binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
-
             rotateAnimator.start();
+            if (mContorller.isPlaying()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     private void playerPause() {
@@ -276,7 +274,6 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     private void startMusicPlayerActivity(int position) {
         Intent intent = new Intent(this, MusicPlayerActivity.class);
-//        intent.putExtra("songInfo", mList.get(position));
         Gson gson = new Gson();
         String jList = gson.toJson(mList);
         intent.putExtra("songList", jList);

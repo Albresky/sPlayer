@@ -21,7 +21,7 @@ public class Song implements Serializable {
 
     public String type;
 
-    public boolean isCheck;
+    public boolean isChecked;
 
     public boolean containCover;
 
@@ -89,12 +89,12 @@ public class Song implements Serializable {
         this.type = type;
     }
 
-    public boolean isCheck() {
-        return isCheck;
+    public boolean isChecked() {
+        return isChecked;
     }
 
     public void setCheck(boolean check) {
-        isCheck = check;
+        isChecked = check;
     }
 
     public boolean hasCover() {

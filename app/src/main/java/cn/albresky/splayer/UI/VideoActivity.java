@@ -64,7 +64,13 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         binding.layRefresh.setOnRefreshListener(
                 () -> {
                     Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                    getVideoList(false);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            // your code to update the UI thread here
+                            getVideoList(false);
+
+                        }
+                    });
                 }
         );
         binding.layRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -109,6 +115,7 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
                 //UI Thread work
                 if (mList.size() > 0) {
                     if (mAdapter == null) {
+                        Log.d(TAG, "getVideoList: mAdapter == null");
                         mAdapter = new VideoAdapter(mList, this);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -1,6 +1,5 @@
 package cn.albresky.splayer.Utils;
 
-import android.content.SharedPreferences;
 import android.media.MediaMetadataRetriever;
 import android.os.Environment;
 import android.util.Log;
@@ -26,9 +25,7 @@ public class SuperScanner {
     private String[] scanTypes;
     private int scanDepth = 4;
     private List<FileScanner.FindItem> scannedFiles;
-    private SharedPreferences sp;
-
-    private boolean scanFinished = false;
+    private volatile boolean scanFinished = false;
 
     public List<FileScanner.FindItem> getScannedFiles() {
         return scannedFiles;
@@ -67,7 +64,6 @@ public class SuperScanner {
             song.type = Converter.typeConvert(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE));
             song.singer = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
             song.album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-//            song.albumId = Long.parseLong(mmr.extractMetadata(MediaMetadataRetriever.ME));
 
             if (song.duration == 0) {
                 Log.d(TAG, "getMusicData: " + song.path + " not supported");
@@ -125,7 +121,6 @@ public class SuperScanner {
             }
         }
         return videos;
-
     }
 
     public void startScan() {
@@ -137,9 +132,6 @@ public class SuperScanner {
             return;
         }
         mFileScanner = new FileScanner();
-
-//        String[] suffixes;
-//        suffixes = new String[]{"jpg", "jpeg", "png", "bmp", "gif", "DOC", "DOCX", "WPS", "XLS", "XLSX", "ET", "PPT", "PPTX"};
 
         String[] filteredsuffixes = null;
         if (noMedia) {

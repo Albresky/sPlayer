@@ -1,5 +1,6 @@
 package cn.albresky.splayer.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -9,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,9 +28,12 @@ import cn.albresky.splayer.Utils.MusicScanner;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
+    private final String TAG = "MusicListAdapter";
     private List<Song> mSongs;
 
     private List<Bitmap> mSongCovers;
+
+    private int lastSelectedPosition = -1;
 
     private Context mContext;
 
@@ -67,7 +71,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Song song = mSongs.get(position);
         String time = DatetimeUtils.formatTime(song.getDuration());
 
@@ -78,9 +82,30 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.songType.setText(song.getType());
         holder.songCover.setImageBitmap(mSongCovers.get(position));
 
+        int color_checked = ContextCompat.getColor(mContext, R.color.gold_color);
+        int color_unchecked = ContextCompat.getColor(mContext, R.color.black);
+
+        if (position == lastSelectedPosition) {
+            holder.position.setTextColor(color_checked);
+            holder.songName.setTextColor(color_checked);
+            holder.singer.setTextColor(color_checked);
+            holder.duration.setTextColor(color_checked);
+        } else {
+            holder.position.setTextColor(color_unchecked);
+            holder.songName.setTextColor(color_unchecked);
+            holder.singer.setTextColor(color_unchecked);
+            holder.duration.setTextColor(color_unchecked);
+        }
+
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "You clicked view ", Toast.LENGTH_SHORT).show();
+            if (lastSelectedPosition == position) {
+                lastSelectedPosition = -1;
+            } else {
+                lastSelectedPosition = position;
+            }
             mOnItemClickListener.onItemClick(v, position);
+            notifyItemChanged(lastSelectedPosition);
+            notifyDataSetChanged();
         });
     }
 
@@ -91,6 +116,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     public void updateData(List<Song> songs) {
         mSongs = songs;
+
+        lastSelectedPosition = -1;
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());

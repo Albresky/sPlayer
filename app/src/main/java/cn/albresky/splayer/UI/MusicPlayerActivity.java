@@ -84,9 +84,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 512, 512, false));
-
-//        song = (Song) getIntent().getSerializableExtra("songInfo");
+//        binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 512, 512, false));
 
         String jList = (String) getIntent().getSerializableExtra("songList");
         Gson gson = new Gson();
@@ -104,40 +102,23 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         // Cover Animation
         rotateAnimator = AnimationUtils.getRotateAnimation(binding.ivMusicCover);
-//        if (mContorller != null && mContorller.isPlaying()) {
-//            rotateAnimator.start();
-//            binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
-//        }
         startAnimation();
 
-//
-//        if (song.hasCover()) {
-//            // load background
-//            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
-//            // load cover
-//            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
-//        } else {
-//            Glide.with(this).load(R.drawable.detail_background).into(binding.playBackground);
-//            Glide.with(this).load(R.drawable.record).into(binding.ivMusicCover);
-//        }
-
         resetUI();
-//        binding.seekBar.setMax(seekbarMax);
-//        binding.songName.setText(song.getSong());
-//        binding.singerName.setText(song.getSinger());
-//        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
 
 
         // set button Click Listeners
         binding.playOrPause.setOnClickListener(v -> {
+            if (mContorller == null) return;
             if (mContorller.isPlaying()) {
                 mContorller.pause();
                 rotateAnimator.pause();
                 binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
             } else {
-                mContorller.play();
-                rotateAnimator.resume();
-                binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
+                if (mContorller.play()) {
+                    rotateAnimator.resume();
+                    binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
+                }
             }
         });
 
@@ -201,7 +182,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
         rotateAnimator.end();
 
-
         if (song.hasCover()) {
             Uri uri;
             if (song.albumId != 0) {
@@ -245,8 +225,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (mContorller.isPlaying()) {
             playerViewStart();
         }
-
-//        Log.d(TAG, "updateProgress: " + "[" + newProgress + "]" + currenPostion + " / " + song.getDuration());
     }
 
     public void playerViewStart() {

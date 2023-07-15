@@ -57,21 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissons();
 
-        // test zone
-
-//        Log.d(TAG, "getAudioData: enableDeepScan");
-//        SuperScanner sScanner = new SuperScanner();
-//        sScanner.setScanType(new String[]{"flac", "mp3", "aac", "wav", "ogg", "m4a", "oga", "ac3"});
-//        sScanner.startScan();
-//        List<Song> mList = sScanner.getAudioData();
-//        if (mList != null && mList.size() > 0) {
-//            Log.d(TAG, "onCreate: mList.size() = " + mList.size());
-//        } else {
-//            Log.d(TAG, "onCreate: mList is null");
-//        }
-        // test zone
-
-
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {

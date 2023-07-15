@@ -71,8 +71,15 @@ public class MusicScanner {
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         byte[] data;
         try {
-            mmr.setDataSource(path);
-            data = mmr.getEmbeddedPicture();
+            try {
+                mmr.setDataSource(path);
+                data = mmr.getEmbeddedPicture();
+            } catch (Exception e) {
+                Log.e(TAG, "getAlbumPicture: ", e);
+                data = null;
+            } finally {
+                mmr.release();
+            }
         } catch (Exception e) {
             Log.e(TAG, "getAlbumPicture: ", e);
             data = null;

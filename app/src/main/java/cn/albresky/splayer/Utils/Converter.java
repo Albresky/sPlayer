@@ -31,8 +31,13 @@ public class Converter {
     }
 
     public static String typeConvert(String mimeType) {
+        if (mimeType == null) {
+            return "unknown";
+        }
+
         String type;
         String category;
+
         try {
             if (mimeType.contains("/")) {
                 String[] str = mimeType.split("/");
@@ -156,7 +161,7 @@ public class Converter {
         if (cursor != null && cursor.moveToFirst()) {
             int index = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
             if (index >= 0) {
-                Log.e(TAG, "getAudioAlbumImageContentUri: more than one result");
+                Log.d(TAG, "getAudioAlbumImageContentUri: more than one result");
                 long albumId = cursor.getLong(index);
                 Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
                 imgUri = ContentUris.withAppendedId(sArtworkUri,
@@ -166,7 +171,6 @@ public class Converter {
             }
         }
         return imgUri;
-
     }
 
 }
