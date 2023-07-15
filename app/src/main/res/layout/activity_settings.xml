@@ -45,7 +45,7 @@
                 android:layout_marginTop="@dimen/dp_20"
                 android:paddingStart="@dimen/dp_30"
                 android:paddingEnd="@dimen/dp_15"
-                android:text="功能与服务"
+                android:text="高 级"
                 android:textColor="@color/set_gray"
                 android:textSize="@dimen/sp_15" />
 
@@ -60,16 +60,6 @@
                 android:text="深度搜索模式"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <Switch
-                android:id="@+id/msg_recv"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@drawable/setting_selection_style"
-                android:paddingStart="@dimen/dp_30"
-                android:paddingEnd="@dimen/dp_15"
-                android:text="消息提醒"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
             <android.widget.Button
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
@@ -78,47 +68,6 @@
                 android:paddingStart="@dimen/dp_30"
                 android:paddingEnd="@dimen/dp_15"
                 android:text="清空缓存"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/gen_set"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:paddingStart="@dimen/dp_30"
-                android:paddingEnd="@dimen/dp_15"
-                android:text="通用设置"
-                android:textColor="@color/set_gray"
-                android:textSize="@dimen/sp_15" />
-
-            <Switch
-                android:id="@+id/teen_set"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/setting_selection_style"
-                android:paddingStart="@dimen/dp_30"
-                android:paddingEnd="@dimen/dp_15"
-                android:text="青少年模式"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-
-            <android.widget.Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/setting_selection_style"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dp_30"
-                android:paddingEnd="@dimen/dp_15"
-                android:text="隐私设置"
                 android:textColor="@color/black" />
 
         </LinearLayout>
@@ -144,16 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="@drawable/setting_selection_style"
-                android:gravity="center_vertical"
-                android:paddingStart="30dp"
-                android:paddingEnd="15dp"
-                android:text="隐私指引"
-                android:textColor="@color/black" />
-
-            <android.widget.Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:background="@drawable/setting_selection_style"
                 android:gravity="center_vertical"
                 android:paddingStart="30dp"
