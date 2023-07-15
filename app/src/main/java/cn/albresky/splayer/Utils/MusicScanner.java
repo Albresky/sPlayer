@@ -40,6 +40,7 @@ public class MusicScanner {
                 song.type = Converter.typeConvert(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)));
                 Log.d(TAG, song.song);
 
+
                 // check song.path file exists or not
                 File mFile = new File(song.path);
                 if (!mFile.exists()) {

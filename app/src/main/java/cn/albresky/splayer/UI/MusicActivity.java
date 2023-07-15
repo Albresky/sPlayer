@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -32,6 +33,7 @@ import cn.albresky.splayer.Service.MusicService;
 import cn.albresky.splayer.Utils.AnimationUtils;
 import cn.albresky.splayer.Utils.Converter;
 import cn.albresky.splayer.Utils.MusicScanner;
+import cn.albresky.splayer.Utils.SuperScanner;
 import cn.albresky.splayer.databinding.ActivityMusiclistBinding;
 
 public class MusicActivity extends AppCompatActivity implements MusicListAdapter.OnItemClickListener {
@@ -46,6 +48,9 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     private int mIndex;
     private ObjectAnimator rotateAnimator;
     private ActivityMusiclistBinding binding;
+
+    private boolean enableDeepScan;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +83,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 //            return insets;
 //        });
 
-
+        loadSettings();
         binding.btnScanMusic.setOnClickListener(v -> {
             Log.d(TAG, "initView: btnScanMusic clicked");
             binding.btnScanMusic.setText("");
@@ -134,10 +139,28 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
+        Log.d(TAG, "getMusicList: enableDeepScan = " + enableDeepScan);
+
         executor.execute(() -> {
             // Background work
             mList.clear();
-            mList = MusicScanner.getMusicData(this);
+            if (enableDeepScan) {
+                Log.d(TAG, "getAudioData: enableDeepScan");
+                SuperScanner sScanner = new SuperScanner();
+                sScanner.setScanType(new String[]{"flac", "mp3", "aac", "wav", "ogg", "m4a", "oga", "ac3"});
+                sScanner.startScan();
+                mList = sScanner.getAudioData();
+                if (mList != null && mList.size() > 0) {
+                    Log.d(TAG, "onCreate: mList.size() = " + mList.size());
+                } else {
+                    Log.d(TAG, "onCreate: mList is null");
+                }
+            } else {
+                Log.d(TAG, "getAudioData: disableDeepScan");
+                mList = MusicScanner.getMusicData(this);
+
+            }
+
             handler.post(() -> {
                 // UI Thread work
                 if (mList.size() > 0) {
@@ -173,6 +196,10 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
     }
 
+    void loadSettings() {
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+        enableDeepScan = sharedPreferences.getBoolean("enableDeepScan", false);
+    }
 
     private void playerStart(int position) {
         try {

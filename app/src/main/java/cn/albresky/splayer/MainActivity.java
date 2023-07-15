@@ -20,9 +20,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
+import cn.albresky.splayer.Bean.Song;
 import cn.albresky.splayer.UI.MusicActivity;
 import cn.albresky.splayer.UI.SettingsActivity;
 import cn.albresky.splayer.UI.VideoActivity;
+import cn.albresky.splayer.Utils.SuperScanner;
 import cn.albresky.splayer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,9 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissons();
 
-        /*
-         * test zone
-         * */
+        // test zone
+
+        Log.d(TAG, "getAudioData: enableDeepScan");
+        SuperScanner sScanner = new SuperScanner();
+        sScanner.setScanType(new String[]{"flac", "mp3", "aac", "wav", "ogg", "m4a", "oga", "ac3"});
+        sScanner.startScan();
+        List<Song> mList = sScanner.getAudioData();
+        if (mList != null && mList.size() > 0) {
+            Log.d(TAG, "onCreate: mList.size() = " + mList.size());
+        } else {
+            Log.d(TAG, "onCreate: mList is null");
+        }
+        // test zone
+
+
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), (v, insets) -> {
@@ -156,4 +172,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

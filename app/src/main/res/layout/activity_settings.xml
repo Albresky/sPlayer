@@ -50,7 +50,7 @@
                 android:textSize="@dimen/sp_15" />
 
             <Switch
-                android:id="@+id/deep_sort"
+                android:id="@+id/deep_scan"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_10"

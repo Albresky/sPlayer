@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 import cn.albresky.splayer.Adapter.VideoAdapter;
 import cn.albresky.splayer.Bean.Video;
 import cn.albresky.splayer.R;
+import cn.albresky.splayer.Utils.SuperScanner;
 import cn.albresky.splayer.Utils.VideoScanner;
 import cn.albresky.splayer.databinding.ActivityVideoBinding;
 
@@ -32,6 +33,8 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
     private static List<Video> mList = new ArrayList<>();
     private final String TAG = "VideoActivity";
     private ActivityVideoBinding binding;
+
+    private boolean enableDeepScan = false;
     private VideoAdapter mAdapter;
 
 
@@ -43,20 +46,26 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         initView();
     }
 
+    void loadSettings() {
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+        enableDeepScan = sharedPreferences.getBoolean("enableDeepScan", false);
+    }
+
     private void initView() {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
+        loadSettings();
         binding.btnScanVideo.setOnClickListener(v -> {
             Toast.makeText(this, "开始扫描视频文件", Toast.LENGTH_SHORT).show();
             binding.btnScanVideo.setText("");
             binding.progressBar.setVisibility(View.VISIBLE);
-            getVideoList();
+            getVideoList(true);
         });
 
         binding.layRefresh.setOnRefreshListener(
                 () -> {
                     Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                    getVideoList();
+                    getVideoList(false);
                 }
         );
         binding.layRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -67,16 +76,31 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
 
     }
 
-    private void getVideoList() {
+    private void getVideoList(boolean enableCache) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-
+        Log.d(TAG, "getVideoList: enableDeepScan:" + enableDeepScan);
         executor.execute(() -> {
             //Background work
             mList.clear();
             // try to get video list from cache
-            if (!loadCache()) {
-                mList = VideoScanner.getVideoData(this);
+            if (!enableCache || !loadCache()) {
+//            if (true) {
+                if (enableDeepScan) {
+                    Log.d(TAG, "getVideoList: enableDeepScan");
+                    SuperScanner sScanner = new SuperScanner();
+                    sScanner.setScanType(new String[]{"mp4", "mkv", "webm"});
+                    sScanner.startScan();
+                    mList = sScanner.getVideoData();
+                    if (mList != null && mList.size() > 0) {
+                        Log.d(TAG, "onCreate: mList.size() = " + mList.size());
+                    } else {
+                        Log.d(TAG, "onCreate: mList is null");
+                    }
+                } else {
+                    Log.d(TAG, "getVideoList: disableDeepScan");
+                    mList = VideoScanner.getVideoData(this);
+                }
             }
 
             handler.post(() -> {
