@@ -114,6 +114,12 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
                     getMusicList();
                 }
         );
+
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            Log.d(TAG, "onNavigationClick: ");
+            finish();
+        });
+
         binding.layRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,

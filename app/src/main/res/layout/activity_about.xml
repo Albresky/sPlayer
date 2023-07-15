@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".UI.SettingsActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -54,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/app_version"
-            android:textColor="@color/dark_gray"
-            android:textSize="15sp" />
+            android:textColor="#9c9c9c"
+            android:textSize="13sp" />
 
 
     </LinearLayout>
@@ -74,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/app_copyright"
-            android:textColor="@color/dark_gray"
+            android:textColor="#9c9c9c"
             android:textSize="15sp" />
 
 

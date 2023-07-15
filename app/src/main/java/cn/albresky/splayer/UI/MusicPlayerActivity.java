@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -202,10 +203,16 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
 
         if (song.hasCover()) {
+            Uri uri;
+            if (song.albumId != 0) {
+                uri = Converter.getAudioAlbumImageContentUri(song.getAlbumId());
+            } else {
+                uri = Converter.getAudioAlbumImageContentUri(this, song.getPath());
+            }
             // load background
-            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
+            Glide.with(this).load(uri).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
             // load cover
-            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
+            Glide.with(this).load(uri).into(binding.ivMusicCover);
         } else {
             // load background
             Glide.with(this).load(R.drawable.detail_background).bitmapTransform(new BlurTransformation(this, 15)).into(binding.playBackground);

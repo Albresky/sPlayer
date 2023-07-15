@@ -49,7 +49,7 @@
                 android:textColor="@color/set_gray"
                 android:textSize="@dimen/sp_15" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/deep_scan"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
@@ -60,17 +60,41 @@
                 android:text="深度搜索模式"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <android.widget.Button
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:background="@drawable/setting_selection_style"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dp_30"
-                android:paddingEnd="@dimen/dp_15"
-                android:text="清空缓存"
-                android:textColor="@color/black" />
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <android.widget.Button
+                    android:id="@+id/btn_clear_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/setting_selection_style"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_30"
+                    android:paddingEnd="@dimen/dp_15"
+                    android:text="清空缓存"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txt_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:text="0.0MB"
+                    android:textColor="@color/dark_gray" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="5dp"
+            android:background="@color/gray" />
 
         <LinearLayout
             android:id="@+id/lay_scan_music"
@@ -90,6 +114,7 @@
                 android:textSize="@dimen/sp_15" />
 
             <android.widget.Button
+                android:id="@+id/btn_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
@@ -101,8 +126,10 @@
                 android:textColor="@color/black" />
 
             <android.widget.Button
+                android:id="@+id/btn_exit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/setting_selection_style"
                 android:gravity="center_vertical"
                 android:paddingStart="30dp"

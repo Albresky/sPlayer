@@ -33,7 +33,6 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
     private static List<Video> mList = new ArrayList<>();
     private final String TAG = "VideoActivity";
     private ActivityVideoBinding binding;
-
     private boolean enableDeepScan = false;
     private VideoAdapter mAdapter;
 
@@ -73,7 +72,10 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
         );
-
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            Log.d(TAG, "onNavigationClick: ");
+            finish();
+        });
     }
 
     private void getVideoList(boolean enableCache) {

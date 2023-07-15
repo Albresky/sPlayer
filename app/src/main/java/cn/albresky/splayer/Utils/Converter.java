@@ -2,10 +2,12 @@ package cn.albresky.splayer.Utils;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class Converter {
@@ -138,6 +140,35 @@ public class Converter {
         Log.d(TAG, "AudioCoverImgUri = " + imgUri.toString());
         return imgUri;
     }
+
+    public static Uri getAudioAlbumImageContentUri(Context context, String filePath) {
+        Uri audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.DATA + "=? ";
+        String[] projection = new String[]{MediaStore.Audio.Media._ID, MediaStore.Audio.Media.ALBUM_ID};
+
+        Cursor cursor = context.getContentResolver().query(
+                audioUri,
+                projection,
+                selection,
+                new String[]{filePath}, null);
+
+        Uri imgUri = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            int index = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
+            if (index >= 0) {
+                Log.e(TAG, "getAudioAlbumImageContentUri: more than one result");
+                long albumId = cursor.getLong(index);
+                Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+                imgUri = ContentUris.withAppendedId(sArtworkUri,
+                        albumId);
+                Log.d(TAG, "AudioCoverImgUri = " + imgUri.toString());
+                cursor.close();
+            }
+        }
+        return imgUri;
+
+    }
+
 }
 
 

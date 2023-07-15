@@ -23,6 +23,9 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".UI.AboutActivity"
+            android:exported="false" />
+        <activity
             android:name=".UI.SettingsActivity"
             android:exported="false" />
 
