@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate() called");
 
 
-        checkPermissons();
+        checkPermissions();
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
@@ -84,7 +84,32 @@ public class MainActivity extends AppCompatActivity {
         // test zone end
     }
 
-    private void checkPermissons() {
+    private void checkPermissionsAndLaunch(@NonNull ActivityResultLauncher<Intent> launcher, @NonNull Intent intent) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            if (permissionGranted[PERMISSION_READ_EXTERNAL] && permissionGranted[PERMISSION_WRITE_EXTERNAL]) {
+                startActivity(intent);
+            } else if (ContextCompat.checkSelfPermission(
+                    getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL);
+            } else if (ContextCompat.checkSelfPermission(
+                    getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL);
+            }
+        } else {
+            if (!Environment.isExternalStorageManager()) {
+                Toast.makeText(this, "请求所有文件访问权限", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                launcher.launch(intent2);
+            } else {
+                Toast.makeText(this, "已获得所有文件访问权限", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        }
+    }
+
+    private void checkPermissions() {
         ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.equals(RESULT_OK)) {
@@ -100,33 +125,59 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         binding.btnMusic.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                if (permissionGranted[PERMISSION_READ_EXTERNAL] && permissionGranted[PERMISSION_WRITE_EXTERNAL]) {
-                    startActivity(new Intent(getApplicationContext(), MusicActivity.class));
-                } else if (ContextCompat.checkSelfPermission(
-                        getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL);
-                } else if (ContextCompat.checkSelfPermission(
-                        getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL);
-                }
-            } else {
-                if (!Environment.isExternalStorageManager()) {
-                    Toast.makeText(this, "请求所有文件访问权限", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    launcher.launch(intent);
-                } else {
-                    Toast.makeText(this, "已获得所有文件访问权限", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), MusicActivity.class));
-                }
-            }
+            Intent intent = new Intent(getApplicationContext(), MusicActivity.class);
+            checkPermissionsAndLaunch(launcher, intent);
         });
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+//                if (permissionGranted[PERMISSION_READ_EXTERNAL] && permissionGranted[PERMISSION_WRITE_EXTERNAL]) {
+//                    startActivity(new Intent(getApplicationContext(), MusicActivity.class));
+//                } else if (ContextCompat.checkSelfPermission(
+//                        getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE
+//                ) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL);
+//                } else if (ContextCompat.checkSelfPermission(
+//                        getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                ) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL);
+//                }
+//            } else {
+//                if (!Environment.isExternalStorageManager()) {
+//                    Toast.makeText(this, "请求所有文件访问权限", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//                    launcher.launch(intent);
+//                } else {
+//                    Toast.makeText(this, "已获得所有文件访问权限", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(getApplicationContext(), MusicActivity.class));
+//                }
+//            }
 
         binding.btnVideo.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), VideoActivity.class));
+            Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+            checkPermissionsAndLaunch(launcher, intent);
         });
+
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+//                if (permissionGranted[PERMISSION_READ_EXTERNAL] && permissionGranted[PERMISSION_WRITE_EXTERNAL]) {
+//                    startActivity(new Intent(getApplicationContext(), VideoActivity.class));
+//                } else if (ContextCompat.checkSelfPermission(
+//                        getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE
+//                ) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL);
+//                } else if (ContextCompat.checkSelfPermission(
+//                        getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                ) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL);
+//                }
+//            } else {
+//                if (!Environment.isExternalStorageManager()) {
+//                    Toast.makeText(this, "请求所有文件访问权限", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//                    launcher.launch(intent);
+//                } else {
+//                    Toast.makeText(this, "已获得所有文件访问权限", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(getApplicationContext(), VideoActivity.class));
+//                }
+//            }
     }
 
 

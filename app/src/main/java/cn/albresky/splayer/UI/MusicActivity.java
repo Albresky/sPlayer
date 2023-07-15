@@ -75,7 +75,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
             // register service
             startMusicService();
-
+            String tText = enableDeepScan ? "深度扫描音乐中[level=" + scanDepth + "]" : "扫描音乐中";
+            Toast.makeText(this, tText, Toast.LENGTH_SHORT).show();
             getMusicList();
         });
 
@@ -172,9 +173,6 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             handler.post(() -> {
                 // UI Thread work
                 if (mList.size() > 0) {
-//                    binding.playerSongCover.setEnabled(true);
-//                    binding.playerSongName.setEnabled(true);
-//                    binding.btnPlay.setEnabled(true);
                     if (mAdapter == null) {
                         mAdapter = new MusicListAdapter(mList, this);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

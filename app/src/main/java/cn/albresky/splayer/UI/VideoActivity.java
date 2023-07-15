@@ -58,9 +58,11 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
 
         loadSettings();
         binding.btnScanVideo.setOnClickListener(v -> {
-            Toast.makeText(this, "开始扫描视频文件", Toast.LENGTH_SHORT).show();
             binding.btnScanVideo.setText("");
             binding.progressBar.setVisibility(View.VISIBLE);
+
+            String tText = enableDeepScan ? "深度扫描视频中[level=" + scanDepth + "]" : "扫描视频中";
+            Toast.makeText(this, tText, Toast.LENGTH_SHORT).show();
             getVideoList(true);
         });
 

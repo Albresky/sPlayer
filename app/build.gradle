@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
     namespace 'cn.albresky.splayer'
     compileSdk 33
@@ -10,10 +11,16 @@ android {
         applicationId "cn.albresky.splayer"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "0.0.1"
+        versionCode 2
+        versionName "0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "sPlayer_release_${variant.versionName}.apk"
+        }
     }
 
     viewBinding {
@@ -41,6 +48,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
