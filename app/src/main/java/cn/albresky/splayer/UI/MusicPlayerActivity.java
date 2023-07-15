@@ -20,8 +20,14 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.albresky.splayer.Bean.Song;
+import cn.albresky.splayer.Interface.IMusicController;
 import cn.albresky.splayer.R;
 import cn.albresky.splayer.Service.MusicService;
 import cn.albresky.splayer.Utils.AnimationUtils;
@@ -40,8 +46,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private ActivityMusicPlayerBinding binding;
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
+
+    private List<Song> mList = new ArrayList<>();
     private Song song;
+
+    private int songIndex;
     private ObjectAnimator rotateAnimator;
+
+    private IMusicController mIMusicController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +82,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
     }
 
-
     private void initView() {
         binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 512, 512, false));
 
-        song = (Song) getIntent().getSerializableExtra("songInfo");
+//        song = (Song) getIntent().getSerializableExtra("songInfo");
+
+        String jList = (String) getIntent().getSerializableExtra("songList");
+        Gson gson = new Gson();
+        mList = gson.fromJson(jList, new TypeToken<List<Song>>() {
+        }.getType());
+        songIndex = getIntent().getIntExtra("songIndex", 0);
+        song = mList.get(songIndex);
 
         startMusicService();
 
@@ -85,26 +103,31 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         // Cover Animation
         rotateAnimator = AnimationUtils.getRotateAnimation(binding.ivMusicCover);
-        if (mContorller != null && mContorller.isPlaying()) {
-            rotateAnimator.start();
-            binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
-        }
+//        if (mContorller != null && mContorller.isPlaying()) {
+//            rotateAnimator.start();
+//            binding.playOrPause.setBackgroundResource(R.drawable.detail_play_circle);
+//        }
+        startAnimation();
 
-        if (song.hasCover()) {
-            // load background
-            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
-            // load cover
-            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
-        } else {
-            Glide.with(this).load(R.drawable.detail_background).into(binding.playBackground);
-            Glide.with(this).load(R.drawable.record).into(binding.ivMusicCover);
-        }
-        binding.seekBar.setMax(seekbarMax);
-        binding.songName.setText(song.getSong());
-        binding.singerName.setText(song.getSinger());
-        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
+//
+//        if (song.hasCover()) {
+//            // load background
+//            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
+//            // load cover
+//            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
+//        } else {
+//            Glide.with(this).load(R.drawable.detail_background).into(binding.playBackground);
+//            Glide.with(this).load(R.drawable.record).into(binding.ivMusicCover);
+//        }
+
+        resetUI();
+//        binding.seekBar.setMax(seekbarMax);
+//        binding.songName.setText(song.getSong());
+//        binding.singerName.setText(song.getSinger());
+//        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
 
 
+        // set button Click Listeners
         binding.playOrPause.setOnClickListener(v -> {
             if (mContorller.isPlaying()) {
                 mContorller.pause();
@@ -123,6 +146,28 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         binding.btnBack.setOnClickListener(v -> {
             finish();
+        });
+
+        binding.playNext.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: next");
+            int nextIndex = songIndex >= mList.size() - 1 ? 0 : songIndex + 1;
+            songIndex = nextIndex;
+            song = mList.get(songIndex);
+            mContorller.prepare(songIndex);
+            mContorller.play();
+            resetUI();
+            startAnimation();
+        });
+
+        binding.playPrev.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: previous");
+            int previousIndex = songIndex <= 0 ? mList.size() - 1 : songIndex - 1;
+            songIndex = previousIndex;
+            song = mList.get(songIndex);
+            mContorller.prepare(songIndex);
+            mContorller.play();
+            resetUI();
+            startAnimation();
         });
 
 
@@ -146,6 +191,34 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 Log.d(TAG, "onStopTrackingTouch: ");
             }
         });
+    }
+
+    public void resetUI() {
+        binding.seekBar.setMax(seekbarMax);
+        binding.songName.setText(song.getSong());
+        binding.singerName.setText(song.getSinger());
+        binding.tvTotal.setText(DatetimeUtils.formatTime(song.getDuration()));
+        rotateAnimator.end();
+
+
+        if (song.hasCover()) {
+            // load background
+            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).bitmapTransform(new BlurTransformation(this, 25)).into(binding.playBackground);
+            // load cover
+            Glide.with(this).load(Converter.getAudioAlbumImageContentUri(song.getAlbumId())).into(binding.ivMusicCover);
+        } else {
+            // load background
+            Glide.with(this).load(R.drawable.detail_background).bitmapTransform(new BlurTransformation(this, 15)).into(binding.playBackground);
+            // load cover
+            Glide.with(this).load(R.drawable.record).into(binding.ivMusicCover);
+        }
+    }
+
+    private void startAnimation() {
+        if (mContorller != null && mContorller.isPlaying()) {
+            rotateAnimator.start();
+            binding.playOrPause.setBackgroundResource(R.drawable.detail_pause_circle);
+        }
     }
 
     private void startMusicService() {

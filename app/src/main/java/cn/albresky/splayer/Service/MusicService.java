@@ -7,11 +7,19 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.albresky.splayer.Bean.Song;
+
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
 
     private final String TAG = "MusicService";
     private final IBinder mBinder = new AudioBinder();
-    private String songPath;
+
+    private int songIndex;
+
+    private List<Song> songList = new ArrayList<>();
     private MediaPlayer mPlayer;
 
     public MusicService() {
@@ -63,12 +71,31 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             return MusicService.this;
         }
 
+        public void updateSongList(List<Song> list) {
+            songList = list;
+        }
+
+        public void prepare(int index) {
+            songIndex = index;
+            try {
+                mPlayer.reset();
+                mPlayer.setDataSource(songList.get(index).getPath());
+                mPlayer.prepare();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public int getSongIndex() {
+            return songIndex;
+        }
+
         public void setSongPath(String songPath) {
             try {
-                release();
-                mPlayer = new MediaPlayer();
+                mPlayer.reset();
+              /*  release();
+                mPlayer = new MediaPlayer();*/
                 addListener();
-//                mPlayer.stop();
                 mPlayer.setDataSource(songPath);
                 mPlayer.prepare();
             } catch (Exception e) {
@@ -76,11 +103,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             }
         }
 
-        public void release() {
-            if (mPlayer != null) {
-                mPlayer.release();
-            }
-        }
+//        public void release() {
+//            if (mPlayer != null) {
+//                mPlayer.release();
+//            }
+//        }
 
         public void play() {
             try {

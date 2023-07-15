@@ -18,6 +18,8 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -164,16 +166,27 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     }
 
+    private void updatePlayerUI(int position) {
+        binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
+        binding.playerSongName.setSelected(true);
+        binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, MusicScanner.isAlbumContainCover(mList.get(position).getPath()), 1));
+        binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
+    }
+
+
     private void playerStart(int position) {
         try {
 //            mContorller.release();
-            mContorller.setSongPath(mList.get(position).getPath());
-            mContorller.play();
+//            mContorller.setSongPath(mList.get(position).getPath());
 
-            binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
-            binding.playerSongName.setSelected(true);
-            binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, MusicScanner.isAlbumContainCover(mList.get(position).getPath()), 1));
-            binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
+            mContorller.updateSongList(mList);
+            mContorller.prepare(position);
+            mContorller.play();
+            updatePlayerUI(position);
+//            binding.playerSongName.setText(String.format("%s - %s", mList.get(position).getSong(), mList.get(position).getSinger()));
+//            binding.playerSongName.setSelected(true);
+//            binding.playerSongCover.setImageBitmap(MusicScanner.getAlbumPicture(this, MusicScanner.isAlbumContainCover(mList.get(position).getPath()), 1));
+//            binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
 
             rotateAnimator.start();
         } catch (Exception e) {
@@ -201,6 +214,12 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     protected void onResume() {
         Log.d(TAG, "onResume: ");
         if (mContorller != null) {
+            int nowSongIndex = mContorller.getSongIndex();
+            if (nowSongIndex != mIndex) {
+                mIndex = nowSongIndex;
+                updatePlayerUI(mIndex);
+            }
+
             if (mContorller.isPlaying()) {
                 binding.btnPlay.setIcon(AppCompatResources.getDrawable(this, R.drawable.baseline_pause));
                 rotateAnimator.resume();
@@ -224,7 +243,11 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     private void startMusicPlayerActivity(int position) {
         Intent intent = new Intent(this, MusicPlayerActivity.class);
-        intent.putExtra("songInfo", mList.get(position));
+//        intent.putExtra("songInfo", mList.get(position));
+        Gson gson = new Gson();
+        String jList = gson.toJson(mList);
+        intent.putExtra("songList", jList);
+        intent.putExtra("songIndex", position);
         startActivity(intent);
         overridePendingTransition(R.anim.bottom_up, R.anim.stay);
     }
