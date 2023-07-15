@@ -22,22 +22,27 @@
         tools:targetApi="31">
         <activity
             android:name=".UI.AboutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
         <activity
             android:name=".UI.SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
 
         <service
             android:name=".Service.MusicService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
 
         <activity
             android:name=".UI.MusicPlayerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait ">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,13 +51,16 @@
         </activity>
         <activity
             android:name=".UI.MusicActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
         <activity
             android:name=".UI.VideoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
         <activity
             android:name=".UI.VideoPlayerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait " />
     </application>
 
 </manifest>

@@ -124,6 +124,11 @@ public class SuperScanner {
         return videos;
     }
 
+    public void setScanDepth(int depth) {
+        scanDepth = depth;
+    }
+
+
     public void startScan() {
         Log.d(TAG, "startScan: ");
         scanFinished = false;

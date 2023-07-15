@@ -45,6 +45,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private final int seekbarMax = 200;
     private final int handleDelay = 500; // millisecond
     private ActivityMusicPlayerBinding binding;
+
+    private int progressBuf = 3;
     private MusicService.AudioBinder mContorller;
     private MusicConnection mConnection;
 
@@ -266,8 +268,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
         binding.tvProgress.setText(DatetimeUtils.formatTime(currenPostion));
         handler.sendEmptyMessageDelayed(UPDATE_PROGRESS, handleDelay);
 
-        if (newProgress == seekbarMax) {
+        if (seekbarMax - newProgress <= 1) {
+            progressBuf -= 1;
+        }
+
+        if (progressBuf == 0 || newProgress == seekbarMax) {
             Log.d(TAG, "updateProgress: reachMax" + ",playType:" + playType);
+
             switch (playType) {
                 case 0:
                     binding.seekBar.setProgress(0);

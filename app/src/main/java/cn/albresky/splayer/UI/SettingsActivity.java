@@ -20,6 +20,10 @@ public class SettingsActivity extends AppCompatActivity {
     private final String TAG = "loadSettings";
     private ActivitySettingsBinding binding;
 
+    private boolean enableDeepScan = false;
+
+    private int scanDepth = 4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         binding.deepScan.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Log.d(TAG, "onCheckedChanged: ");
+            binding.depthSlider.setEnabled(isChecked);
+            scanDepth = isChecked ? Math.round(binding.depthSlider.getValue()) : 4;
             saveSettings();
         });
+
 
         binding.txtCache.setText(getTotalCacheSize());
 
@@ -75,6 +82,12 @@ public class SettingsActivity extends AppCompatActivity {
     private void loadSettings() {
         Log.d(TAG, "loadSettings: ");
         SharedPreferences sp = getSharedPreferences("settings", MODE_PRIVATE);
+        enableDeepScan = sp.getBoolean("enableDeepScan", false);
+        scanDepth = sp.getInt("scanDepth", 4);
+        if (enableDeepScan) {
+            binding.depthSlider.setEnabled(true);
+            binding.depthSlider.setValue(scanDepth);
+        }
         binding.deepScan.setChecked(sp.getBoolean("enableDeepScan", false));
     }
 
@@ -83,6 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("enableDeepScan", binding.deepScan.isChecked());
+        editor.putInt("scanDepth", Math.round(binding.depthSlider.getValue()));
         editor.apply();
     }
 

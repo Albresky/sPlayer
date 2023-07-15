@@ -6,11 +6,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
     <style name="circleImageStyle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
@@ -26,5 +21,7 @@
         <attr name="strokeWidth" format="dimension" />
         <attr name="strokeColor" format="color" />
     </declare-styleable>
+
+    <style name="WD_Slider" parent="Theme.MaterialComponents.Light.NoActionBar"></style>
 
 </resources>

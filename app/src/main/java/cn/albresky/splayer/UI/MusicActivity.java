@@ -51,6 +51,8 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
 
     private boolean enableDeepScan;
 
+    private int scanDepth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,9 +152,10 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             // Background work
             mList.clear();
             if (enableDeepScan) {
-                Log.d(TAG, "getAudioData: enableDeepScan");
+                Log.d(TAG, "getAudioData: enableDeepScan|ScanType:{flac,mp3,aac,wav,ogg,m4a,oga,ac3}|ScanDepth:" + scanDepth);
                 SuperScanner sScanner = new SuperScanner();
                 sScanner.setScanType(new String[]{"flac", "mp3", "aac", "wav", "ogg", "m4a", "oga", "ac3"});
+                sScanner.setScanDepth(scanDepth);
                 sScanner.startScan();
                 mList = sScanner.getAudioData();
                 if (mList != null && mList.size() > 0) {
@@ -205,6 +208,7 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
     void loadSettings() {
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         enableDeepScan = sharedPreferences.getBoolean("enableDeepScan", false);
+        scanDepth = sharedPreferences.getInt("scanDepth", 4);
     }
 
     private boolean playerStart(int position) {

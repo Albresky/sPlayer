@@ -34,6 +34,8 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
     private final String TAG = "VideoActivity";
     private ActivityVideoBinding binding;
     private boolean enableDeepScan = false;
+
+    private int scanDepth = 4;
     private VideoAdapter mAdapter;
 
 
@@ -48,6 +50,7 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
     void loadSettings() {
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         enableDeepScan = sharedPreferences.getBoolean("enableDeepScan", false);
+        scanDepth = sharedPreferences.getInt("scanDepth", 4);
     }
 
     private void initView() {
@@ -95,9 +98,10 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
             if (!enableCache || !loadCache()) {
 //            if (true) {
                 if (enableDeepScan) {
-                    Log.d(TAG, "getVideoList: enableDeepScan");
+                    Log.d(TAG, "getVideoList: enableDeepScan|ScanType:{mp4,mkv,webm}|ScanDepth:" + scanDepth);
                     SuperScanner sScanner = new SuperScanner();
                     sScanner.setScanType(new String[]{"mp4", "mkv", "webm"});
+                    sScanner.setScanDepth(scanDepth);
                     sScanner.startScan();
                     mList = sScanner.getVideoData();
                     if (mList != null && mList.size() > 0) {
