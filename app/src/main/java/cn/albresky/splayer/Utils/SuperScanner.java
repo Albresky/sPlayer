@@ -39,14 +39,15 @@ public class SuperScanner {
         threadCount = count;
     }
 
+
     public List<Song> getAudioData() {
-        while (!scanFinished) {
-        }
+        while (!scanFinished) ;
         if (scannedFiles == null || scannedFiles.size() == 0) {
             return null;
         }
 
         List<Song> songs = new ArrayList<>();
+
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         for (FileScanner.FindItem item : scannedFiles) {
@@ -84,13 +85,17 @@ public class SuperScanner {
                 songs.add(song);
             }
         }
+        try {
+            mmr.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return songs;
     }
 
     public List<Video> getVideoData() {
 
-        while (!scanFinished) {
-        }
+        while (!scanFinished) ;
         if (scannedFiles == null || scannedFiles.size() == 0) {
             return null;
         }
@@ -99,8 +104,11 @@ public class SuperScanner {
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         for (FileScanner.FindItem item : scannedFiles) {
-            mmr.setDataSource(item.path);
-
+            try {
+                mmr.setDataSource(item.path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Video video = new Video();
             video.name = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
             video.path = item.path;
@@ -123,6 +131,7 @@ public class SuperScanner {
         }
         return videos;
     }
+
 
     public void setScanDepth(int depth) {
         scanDepth = depth;

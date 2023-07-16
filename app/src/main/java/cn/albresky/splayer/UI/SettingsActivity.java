@@ -19,9 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private final String TAG = "loadSettings";
     private ActivitySettingsBinding binding;
-
     private boolean enableDeepScan = false;
-
     private int scanDepth = 4;
 
 
@@ -34,11 +32,13 @@ public class SettingsActivity extends AppCompatActivity {
         initView();
     }
 
+
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: ");
         super.onDestroy();
     }
+
 
     private void initView() {
         Log.d(TAG, "initView: ");
@@ -53,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
             scanDepth = isChecked ? Math.round(binding.depthSlider.getValue()) : 4;
             saveSettings();
         });
-
 
         binding.txtCache.setText(getTotalCacheSize());
 
@@ -79,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+
     private void loadSettings() {
         Log.d(TAG, "loadSettings: ");
         SharedPreferences sp = getSharedPreferences("settings", MODE_PRIVATE);
@@ -91,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding.deepScan.setChecked(sp.getBoolean("enableDeepScan", false));
     }
 
+
     private void saveSettings() {
         Log.d(TAG, "saveSettings: ");
         SharedPreferences sp = getSharedPreferences("settings", MODE_PRIVATE);
@@ -99,6 +100,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt("scanDepth", Math.round(binding.depthSlider.getValue()));
         editor.apply();
     }
+
 
     public String getTotalCacheSize() {
         long cacheSize;
@@ -114,12 +116,14 @@ public class SettingsActivity extends AppCompatActivity {
         return getFormatSize(cacheSize);
     }
 
+
     public String getFormatSize(long size) {
         long kb = size / 1024;
         int m = (int) (kb / 1024);
         int kbs = (int) (kb % 1024);
         return m + "." + kbs + "MB";
     }
+
 
     public long getFolderSize(File file) throws Exception {
         long size = 0;
@@ -139,8 +143,8 @@ public class SettingsActivity extends AppCompatActivity {
         return size;
     }
 
+
     public void clearAllCache() {
-        deleteDir(this.getCacheDir());
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             if (deleteDir(this.getExternalCacheDir())) {
                 Log.d(TAG, "clearAllCache:  ");
@@ -150,18 +154,20 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+
     private boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+            for (String child : children) {
+                boolean success = deleteDir(new File(dir, child));
                 if (!success) {
                     return false;
                 }
             }
         }
-        return dir.delete();
+        return dir != null && dir.delete();
     }
+
 
     @Override
     public void finish() {

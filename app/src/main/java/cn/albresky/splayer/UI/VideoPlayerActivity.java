@@ -67,7 +67,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         binding.videoType.setText(video.getType());
         binding.videoMDate.setText(DatetimeUtils.formatTime(Long.parseLong(video.getDate())));
 
-//         add MediaController
+        // add MediaController
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(binding.videoPlayer);
         binding.videoPlayer.setMediaController(mediaController);

@@ -34,7 +34,6 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
     private final String TAG = "VideoActivity";
     private ActivityVideoBinding binding;
     private boolean enableDeepScan = false;
-
     private int scanDepth = 4;
     private VideoAdapter mAdapter;
 
@@ -69,12 +68,9 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         binding.layRefresh.setOnRefreshListener(
                 () -> {
                     Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            // your code to update the UI thread here
-                            getVideoList(false);
-
-                        }
+                    runOnUiThread(() -> {
+                        // your code to update the UI thread here
+                        getVideoList(false);
                     });
                 }
         );
@@ -98,11 +94,10 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
             mList.clear();
             // try to get video list from cache
             if (!enableCache || !loadCache()) {
-//            if (true) {
                 if (enableDeepScan) {
                     Log.d(TAG, "getVideoList: enableDeepScan|ScanType:{mp4,mkv,webm}|ScanDepth:" + scanDepth);
                     SuperScanner sScanner = new SuperScanner();
-                    sScanner.setScanType(new String[]{"mp4", "mkv", "webm"});
+                    sScanner.setScanType(new String[]{"mp4", "mkv", "webm", "avi", "m2ts", "flv", "mov", "wmv", "3gp", "ts", "rmvb"});
                     sScanner.setScanDepth(scanDepth);
                     sScanner.startScan();
                     mList = sScanner.getVideoData();
@@ -146,16 +141,19 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         });
     }
 
+
     @Override
     public void onItemClick(View view, int position) {
         startVideoPlayerActivity(position);
     }
+
 
     private void startVideoPlayerActivity(int videoIndex) {
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         intent.putExtra("videoInfo", mList.get(videoIndex));
         startActivity(intent);
     }
+
 
     private boolean loadCache() {
         Log.d(TAG, "loadCache: load cache from shared preference");
@@ -171,6 +169,7 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         }
     }
 
+
     private boolean writeCache() {
         Log.d(TAG, "writeCache: write cache to shared preference");
         SharedPreferences sp = getSharedPreferences("videoListCache", MODE_PRIVATE);
@@ -183,5 +182,4 @@ public class VideoActivity extends AppCompatActivity implements VideoAdapter.OnI
         editor.putString("videoList", json);
         return editor.commit();
     }
-
 }

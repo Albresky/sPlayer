@@ -83,10 +83,6 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
         binding.btnPlay.setEnabled(false);
         binding.btnPlay.setOnClickListener(v -> {
             if (mContorller != null) {
-//                if (!mContorller.isPrepared()) {
-//                    Log.d(TAG, "initView:[btn_play clicked] [isPrepared=false] => playerStart(0)");
-//                    playerStart(0);
-//                } else
                 if (mContorller.isPlaying()) {
                     Log.d(TAG, "initView:[btn_play clicked] [isPlaying=true] => playerPause()");
                     playerPause();
@@ -139,8 +135,6 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             Log.d(TAG, "initView: playerSongName clicked");
             startMusicPlayerActivity(mIndex);
         });
-
-
     }
 
     private void getMusicList() {
@@ -306,6 +300,4 @@ public class MusicActivity extends AppCompatActivity implements MusicListAdapter
             Log.d(TAG, "onServiceDisconnected: ");
         }
     }
-
-
 }

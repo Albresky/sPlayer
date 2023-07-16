@@ -23,26 +23,31 @@
         <activity
             android:name=".UI.AboutActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".UI.SettingsActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <service
             android:name=".Service.MusicService"
             android:enabled="true"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".UI.MusicPlayerActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait ">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,15 +57,18 @@
         <activity
             android:name=".UI.MusicActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".UI.VideoActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".UI.VideoPlayerActivity"
             android:exported="false"
-            android:screenOrientation="portrait " />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

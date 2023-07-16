@@ -88,8 +88,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     private void initView() {
-//        binding.ivMusicCover.setImageBitmap(Converter.createBitmapWithScale(Converter.createBitmapWithNoScale(this, R.drawable.record), 512, 512, false));
-
         String jList = (String) getIntent().getSerializableExtra("songList");
         Gson gson = new Gson();
         mList = gson.fromJson(jList, new TypeToken<List<Song>>() {
@@ -154,13 +152,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         binding.playNext.setOnClickListener(v -> {
             Log.d(TAG, "onClick: next");
             playNext();
-//            int nextIndex = songIndex >= mList.size() - 1 ? 0 : songIndex + 1;
-//            songIndex = nextIndex;
-//            song = mList.get(songIndex);
-//            mContorller.prepare(songIndex);
-//            mContorller.play();
-//            resetUI();
-//            startAnimation();
         });
 
         binding.playPrev.setOnClickListener(v -> {

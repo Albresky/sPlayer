@@ -1,184 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lay_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".UI.MusicActivity">
 
-    <LinearLayout
-        android:id="@+id/lay_root"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        tools:context=".UI.MusicActivity">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@drawable/baseline_back_arrow">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:navigationIcon="@drawable/baseline_back_arrow">
+        <TextView
+            android:id="@+id/set_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tv_txt_ma_title"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/set_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/tv_txt_ma_title"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
-        </androidx.appcompat.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/lay_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lay_bottom">
 
-            <RelativeLayout
-                android:id="@+id/lay_body"
+            <LinearLayout
+                android:id="@+id/lay_scan_music"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/lay_bottom">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:src="@drawable/baseline_empty" />
 
                 <LinearLayout
-                    android:id="@+id/lay_scan_music"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
-                    <ImageView
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
-                        android:src="@drawable/baseline_empty" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_scan_music"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="140dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="@string/txt_scan_music"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                            app:backgroundTint="@color/transparent"
+                            app:cornerRadius="20dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:strokeColor="@color/gray"
+                            app:strokeWidth="@dimen/dp_1" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                        <ProgressBar
+                            android:id="@+id/progress_bar"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:elevation="8dp"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/blue"
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/btn_scan_music"
+                            app:layout_constraintEnd_toEndOf="@+id/btn_scan_music"
+                            app:layout_constraintStart_toStartOf="@+id/btn_scan_music"
+                            app:layout_constraintTop_toTopOf="@+id/btn_scan_music" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_scan_music"
-                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                                android:layout_width="140dp"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="16dp"
-                                android:gravity="center"
-                                android:insetTop="0dp"
-                                android:insetBottom="0dp"
-                                android:text="@string/txt_scan_music"
-                                android:textColor="@color/black"
-                                android:textSize="14sp"
-                                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                                app:backgroundTint="@color/transparent"
-                                app:cornerRadius="20dp"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:strokeColor="@color/gray"
-                                app:strokeWidth="@dimen/dp_1" />
-
-                            <ProgressBar
-                                android:id="@+id/progress_bar"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:elevation="8dp"
-                                android:indeterminate="true"
-                                android:indeterminateTint="@color/blue"
-                                android:indeterminateTintMode="src_in"
-                                android:visibility="gone"
-                                app:layout_constraintBottom_toBottomOf="@+id/btn_scan_music"
-                                app:layout_constraintEnd_toEndOf="@+id/btn_scan_music"
-                                app:layout_constraintStart_toStartOf="@+id/btn_scan_music"
-                                app:layout_constraintTop_toTopOf="@+id/btn_scan_music" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
 
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                    android:id="@+id/lay_refresh"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/lay_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_music"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone">
+                    android:layout_height="match_parent" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_music"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingEnd="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_8">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!--logo-->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/player_song_cover"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_48"
+                    android:clickable="false"
+                    android:padding="1dp"
+                    android:src="@drawable/record"
+                    app:shapeAppearanceOverlay="@style/circleImageStyle"
+                    app:strokeColor="@color/gold_color"
+                    app:strokeWidth="@dimen/dp_2" />
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/lay_bottom"
-                android:layout_width="match_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/player_song_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dp_8"
-                android:paddingTop="@dimen/dp_8"
-                android:paddingEnd="@dimen/dp_16"
-                android:paddingBottom="@dimen/dp_8">
+                android:layout_weight="1"
+                android:clickable="false"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_12"
+                android:singleLine="true"
+                android:text="@string/tv_txt_default_song_info"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16" />
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <!--logo-->
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/player_song_cover"
-                        android:layout_width="@dimen/dp_48"
-                        android:layout_height="@dimen/dp_48"
-                        android:clickable="false"
-                        android:padding="1dp"
-                        android:src="@drawable/record"
-                        app:shapeAppearanceOverlay="@style/circleImageStyle"
-                        app:strokeColor="@color/gold_color"
-                        app:strokeWidth="@dimen/dp_2" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_play"
+                android:layout_width="@dimen/dp_36"
+                android:layout_height="@dimen/dp_36"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                android:stateListAnimator="@null"
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="@dimen/dp_18"
+                app:icon="@drawable/baseline_play"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="@dimen/dp_36"
+                app:iconTint="@color/black" />
+        </LinearLayout>
 
-                </RelativeLayout>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/player_song_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingLeft="@dimen/dp_12"
-                    android:paddingRight="@dimen/dp_12"
-                    android:singleLine="true"
-                    android:text="@string/tv_txt_default_song_info"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_16" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_play"
-                    android:layout_width="@dimen/dp_36"
-                    android:layout_height="@dimen/dp_36"
-                    android:insetLeft="@dimen/dp_0"
-                    android:insetTop="@dimen/dp_0"
-                    android:insetRight="@dimen/dp_0"
-                    android:insetBottom="@dimen/dp_0"
-                    android:onClick="onClick"
-                    android:stateListAnimator="@null"
-                    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:cornerRadius="@dimen/dp_18"
-                    app:icon="@drawable/baseline_play"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:iconSize="@dimen/dp_36"
-                    app:iconTint="@color/black" />
-            </LinearLayout>
-
-        </RelativeLayout>
-    </LinearLayout>
-</layout>
+    </RelativeLayout>
+</LinearLayout>

@@ -11,8 +11,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 public class Converter {
-
     private static final String TAG = "Converter";
+
 
     public static String resolutionConvert(int w, int h) {
         return w + "x" + h;
@@ -132,19 +132,22 @@ public class Converter {
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, filter);
     }
 
+
     public static Bitmap createBitmapWithNoScale(Context context, int resId) {
         BitmapFactory.Options mOptions = new BitmapFactory.Options();
         mOptions.inScaled = false;
         return BitmapFactory.decodeResource(context.getResources(), resId, mOptions);
     }
 
+
     public static Uri getAudioAlbumImageContentUri(long albumId) {
-        Uri imgUri = null;
+        Uri imgUri;
         Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
         imgUri = ContentUris.withAppendedId(sArtworkUri, albumId);
         Log.d(TAG, "AudioCoverImgUri = " + imgUri.toString());
         return imgUri;
     }
+
 
     public static Uri getAudioAlbumImageContentUri(Context context, String filePath) {
         Uri audioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -172,7 +175,6 @@ public class Converter {
         }
         return imgUri;
     }
-
 }
 
 

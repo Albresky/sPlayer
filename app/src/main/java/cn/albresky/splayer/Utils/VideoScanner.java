@@ -54,6 +54,7 @@ public class VideoScanner {
         return list;
     }
 
+
     public static Bitmap getVideoThumbnail(String path, int width, int height) {
         File mFile = new File(path);
         if (!mFile.exists()) {
@@ -62,15 +63,14 @@ public class VideoScanner {
         }
         Bitmap bitmap;
         try {
-//            bitmap = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
             MediaMetadataRetriever mmr = new MediaMetadataRetriever();
             mmr.setDataSource(path);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                bitmap = mmr.getPrimaryImage();
                 bitmap = mmr.getScaledFrameAtTime(1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC, width, height);
             } else {
                 bitmap = mmr.getFrameAtTime();
             }
+            mmr.release();
         } catch (Exception e) {
             e.printStackTrace();
             bitmap = null;

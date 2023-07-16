@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,6 +73,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         if (thumbnail == null) {
             holder.videoWarning.setVisibility(View.VISIBLE);
+            holder.videoThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            holder.videoThumbnail.setImageResource(R.drawable.baseline_video_half);
+        } else {
+            holder.videoWarning.setVisibility(View.GONE);
+            holder.videoThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.videoThumbnail.setImageBitmap(thumbnail);
         }
         holder.videoIndex.setText(String.valueOf(position + 1));
         holder.videoName.setText(video.getName());
@@ -82,9 +87,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.videoResolution.setText(Converter.resolutionConvert(video.getWidth(), video.getHeight()));
         holder.videoDuration.setText(duration);
         holder.videoType.setText(video.getType());
-        holder.videoThumbnail.setImageBitmap(thumbnail);
+
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(mContext, "点击了第" + position + "项", Toast.LENGTH_SHORT).show();
             onItemClickListener.onItemClick(v, position);
         });
     }
